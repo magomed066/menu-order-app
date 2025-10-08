@@ -19,9 +19,8 @@ import {
 
 function MainPage() {
   return (
-    // <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10 relative">
-    {
-      /* <div className="flex w-full max-w-3xl flex-col gap-6">
+    <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10 relative">
+      <div className="flex w-full max-w-3xl flex-col gap-6">
         <a href="#" className="flex items-center gap-2 self-center font-medium">
           <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
             <ClipboardClock className="size-4" />
@@ -31,6 +30,10 @@ function MainPage() {
 
         <Link to={routes.dashboard}>
           <Button variant="link">Dashboard</Button>
+        </Link>
+
+        <Link to={routes.auth}>
+          <Button variant="link">Auth</Button>
         </Link>
 
         <Card className="h-screen md:h-[430px]">
@@ -54,9 +57,8 @@ function MainPage() {
 
       <div className="absolute top-4 right-4">
         <ThemeToggleFeature />
-      </div> */
-    }
-    // </div>
+      </div>
+    </div>
   )
 }
 

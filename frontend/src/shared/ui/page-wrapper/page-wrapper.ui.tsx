@@ -7,7 +7,7 @@ type Props = {
   className?: string
 }
 
-function PageWrapper({ children, className }: Props) {
+function PageCenterWrapper({ children, className }: Props) {
   return (
     <div
       className={cn(
@@ -20,4 +20,4 @@ function PageWrapper({ children, className }: Props) {
   )
 }
 
-export { PageWrapper }
+export { PageCenterWrapper }

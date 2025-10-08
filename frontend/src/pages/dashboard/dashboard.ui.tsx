@@ -1,8 +1,8 @@
-import { Card, PageWrapper } from '@/shared/ui'
+import { Card, PageCenterWrapper } from '@/shared/ui'
 
 function DashboardPage() {
   return (
-    <PageWrapper>
+    <PageCenterWrapper>
       <div className="max-w-[1200px] w-full">
         <Card className="w-full px-5 min-h-[500px] h-full">
           <h1>hello</h1>
@@ -24,7 +24,7 @@ function DashboardPage() {
           </CardContent> */}
         </Card>
       </div>
-    </PageWrapper>
+    </PageCenterWrapper>
   )
 }
 
