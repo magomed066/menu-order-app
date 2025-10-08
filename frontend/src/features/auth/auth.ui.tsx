@@ -1,35 +1,34 @@
+import { useTranslation } from 'react-i18next'
+
 import { cn } from '@/shared/lib/utils'
 
 import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
   Input,
 } from '@/shared/ui'
 
 function AuthFormFeature() {
+  const { t } = useTranslation(['common', 'auth'])
+
   return (
     <div className={cn('flex flex-col gap-6')}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Войти в систему</CardTitle>
-          {/* <CardDescription>
-            Login with your Apple or Google account
-          </CardDescription> */}
+          <CardTitle className="text-xl">{t('auth:loginWelcome')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel htmlFor="email">{t('auth:email')}</FieldLabel>
                 <Input
                   id="email"
                   type="email"
@@ -39,30 +38,29 @@ function AuthFormFeature() {
               </Field>
               <Field>
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Пароль</FieldLabel>
+                  <FieldLabel htmlFor="password">
+                    {t('auth:password')}
+                  </FieldLabel>
                   <a
                     href="#"
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
-                    Забыли пароль?
+                    {t('auth:forgotPassword')}
                   </a>
                 </div>
                 <Input id="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit">{t('auth:login')}</Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  {t('auth:doNotHaveAnAccount')}{' '}
+                  <a href="#">{t('auth:signUp')}</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
           </form>
         </CardContent>
       </Card>
-      {/* <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{' '}
-        and <a href="#">Privacy Policy</a>.
-      </FieldDescription> */}
     </div>
   )
 }

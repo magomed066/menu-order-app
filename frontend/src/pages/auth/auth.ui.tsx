@@ -1,4 +1,5 @@
 import AuthFormFeature from '@/features/auth'
+import LocaleToggleFeature from '@/features/locale-toggle'
 import ThemeToggleFeature from '@/features/theme-toggle'
 
 import { PageCenterWrapper } from '@/shared/ui'
@@ -10,7 +11,8 @@ function AuthPage() {
         <AuthFormFeature />
       </div>
 
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 flex items-center gap-3">
+        <LocaleToggleFeature />
         <ThemeToggleFeature />
       </div>
     </PageCenterWrapper>
