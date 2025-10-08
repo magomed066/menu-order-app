@@ -10,10 +10,25 @@ const resources = {
   ru: translationRu,
 } as const satisfies Record<string, Resources>
 
+const getSavedLanguage = (): string => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('i18nextLng') || 'ru'
+  }
+  return 'ru'
+}
+
 i18next.init({
+  lng: getSavedLanguage(),
   fallbackLng: 'ru',
   interpolation: { escapeValue: false },
   resources,
+})
+
+// Listen for language changes and save to localStorage
+i18next.on('languageChanged', (lng) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('i18nextLng', lng)
+  }
 })
 
 export const withLocale = (component: () => ReactNode) => () => {
