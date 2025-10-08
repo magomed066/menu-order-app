@@ -1,18 +1,19 @@
-import i18next from 'i18next'
+import i18next, { type Resources } from 'i18next'
 import type { ReactNode } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
 import { translationEn } from '@/shared/lib/locale/en'
 import { translationRu } from '@/shared/lib/locale/ru'
 
+const resources = {
+  en: translationEn,
+  ru: translationRu,
+} as const satisfies Record<string, Resources>
+
 i18next.init({
-  lng: 'ru', // default language
   fallbackLng: 'ru',
-  interpolation: { escapeValue: false }, // React already does escaping
-  resources: {
-    en: translationEn,
-    ru: translationRu,
-  },
+  interpolation: { escapeValue: false },
+  resources,
 })
 
 export const withLocale = (component: () => ReactNode) => () => {

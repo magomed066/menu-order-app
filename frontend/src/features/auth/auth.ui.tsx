@@ -16,19 +16,19 @@ import {
 } from '@/shared/ui'
 
 function AuthFormFeature() {
-  const { t } = useTranslation(['common', 'auth'])
+  const { t } = useTranslation(['auth'])
 
   return (
     <div className={cn('flex flex-col gap-6')}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">{t('auth:loginWelcome')}</CardTitle>
+          <CardTitle className="text-xl">{t('loginWelcome')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="email">{t('auth:email')}</FieldLabel>
+                <FieldLabel htmlFor="email">{t('email')}</FieldLabel>
                 <Input
                   id="email"
                   type="email"
@@ -38,23 +38,20 @@ function AuthFormFeature() {
               </Field>
               <Field>
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">
-                    {t('auth:password')}
-                  </FieldLabel>
+                  <FieldLabel htmlFor="password">{t('password')}</FieldLabel>
                   <a
                     href="#"
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
-                    {t('auth:forgotPassword')}
+                    {t('forgotPassword')}
                   </a>
                 </div>
                 <Input id="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit">{t('auth:login')}</Button>
+                <Button type="submit">{t('login')}</Button>
                 <FieldDescription className="text-center">
-                  {t('auth:doNotHaveAnAccount')}{' '}
-                  <a href="#">{t('auth:signUp')}</a>
+                  {t('doNotHaveAnAccount')} <a href="#">{t('signUp')}</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

@@ -1,0 +1,22 @@
+export type LocaleKeys = 'en' | 'ru'
+
+export interface AuthResources {
+  doNotHaveAnAccount: string
+  forgotPassword: string
+  signUp: string
+  login: string
+  email: string
+  password: string
+  loginWelcome: string
+}
+
+export interface CommonResources {
+  save: string
+  cancel: string
+}
+
+// Merge all resources
+export interface Resources {
+  auth: AuthResources
+  common: CommonResources
+}
