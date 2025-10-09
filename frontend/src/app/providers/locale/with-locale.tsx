@@ -22,6 +22,8 @@ i18next.init({
   fallbackLng: 'ru',
   interpolation: { escapeValue: false },
   resources,
+  // defaultNS: 'common',
+  // ns: ['common', 'menu', 'auth'],
 })
 
 // Listen for language changes and save to localStorage

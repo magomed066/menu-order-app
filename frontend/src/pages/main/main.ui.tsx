@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import ThemeToggleFeature from '@/features/theme-toggle'
 import TimeSlotFeature from '@/features/time-slot'
 
-import { routes } from '@/shared/lib/config'
+import { ROUTES } from '@/shared/lib/config'
 
 import {
   Button,
@@ -28,11 +28,11 @@ function MainPage() {
           Book an appointment
         </a>
 
-        <Link to={routes.dashboard}>
+        <Link to={ROUTES.DASHBOARD}>
           <Button variant="link">Dashboard</Button>
         </Link>
 
-        <Link to={routes.auth}>
+        <Link to={ROUTES.AUTH}>
           <Button variant="link">Auth</Button>
         </Link>
 
