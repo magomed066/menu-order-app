@@ -1,6 +1,7 @@
 import { CircleDashed } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-import { MENU_LIST } from '@/shared/lib/config'
+import { MENU_LIST, ROUTES } from '@/shared/lib/config'
 
 import {
   Sidebar,
@@ -13,6 +14,7 @@ import {
 } from '@/shared/ui'
 
 import NavMain from './components/nav-main'
+import NavUser from './components/nav-user'
 
 function SidebarWidget() {
   return (
@@ -24,10 +26,10 @@ function SidebarWidget() {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link to={ROUTES.DASHBOARD}>
                 <CircleDashed className="size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+                <span className="text-base font-semibold">Admin Panel.</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -37,29 +39,10 @@ function SidebarWidget() {
         {/* <NavDocuments items={data.documents} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
-      <SidebarFooter>Footer{/* <NavUser user={data.user} /> */}</SidebarFooter>
+      <SidebarFooter>
+        <NavUser user={MENU_LIST.user} />
+      </SidebarFooter>
     </Sidebar>
-    // <Sidebar>
-    //   <SidebarContent>
-    //     <SidebarGroup>
-    //       <SidebarGroupLabel>Админ панель</SidebarGroupLabel>
-    //       <SidebarGroupContent>
-    //         <SidebarMenu>
-    //           {items.map((item) => (
-    //             <SidebarMenuItem key={item.title}>
-    //               <SidebarMenuButton asChild>
-    //                 <a href={item.url}>
-    //                   <item.icon />
-    //                   <span>{item.title}</span>
-    //                 </a>
-    //               </SidebarMenuButton>
-    //             </SidebarMenuItem>
-    //           ))}
-    //         </SidebarMenu>
-    //       </SidebarGroupContent>
-    //     </SidebarGroup>
-    //   </SidebarContent>
-    // </Sidebar>
   )
 }
 

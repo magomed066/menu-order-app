@@ -1,6 +1,7 @@
 import AuthPage from '@/pages/auth'
 import DashboardPage from '@/pages/dashboard'
 import MainPage from '@/pages/main'
+import MenuPage from '@/pages/menu'
 
 import { ROUTES } from '@/shared/lib/config'
 
@@ -23,5 +24,9 @@ export const privateRoutes = [
   {
     Component: DashboardPage,
     path: ROUTES.DASHBOARD,
+  },
+  {
+    Component: MenuPage,
+    path: ROUTES.MENU,
   },
 ]
