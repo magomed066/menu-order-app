@@ -1,15 +1,20 @@
 import { Moon, Sun } from 'lucide-react'
+
 import { useTheme } from '@/app/providers/theme/with-theme'
+
+import { useAppTranslation } from '@/shared/lib/hooks'
+
 import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/shared/ui'
 
 function ThemeToggleFeature() {
   const { setTheme } = useTheme()
+  const { t } = useAppTranslation(['common'])
 
   return (
     <DropdownMenu>
@@ -22,13 +27,13 @@ function ThemeToggleFeature() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
+          {t('light')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
+          {t('dark')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
+          {t('system')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

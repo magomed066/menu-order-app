@@ -1,22 +1,32 @@
 import AuthPage from '@/pages/auth'
 import DashboardPage from '@/pages/dashboard'
 import MainPage from '@/pages/main'
+import MenuPage from '@/pages/menu'
 
-import { routes } from '@/shared/lib/config'
+import { ROUTES } from '@/shared/lib/config'
 
 export const publicRoutes = [
   {
     Component: AuthPage,
-    path: routes.auth,
+    path: ROUTES.AUTH,
   },
   {
     Component: MainPage,
-    path: routes.main,
+    path: ROUTES.MAIN,
   },
-  {
-    Component: DashboardPage,
-    path: routes.dashboard,
-  },
+  // {
+  //   Component: DashboardPage,
+  //   path: ROUTES.DASHBOARD,
+  // },
 ]
 
-export const privateRoutes = []
+export const privateRoutes = [
+  {
+    Component: DashboardPage,
+    path: ROUTES.DASHBOARD,
+  },
+  {
+    Component: MenuPage,
+    path: ROUTES.MENU,
+  },
+]

@@ -1,6 +1,7 @@
-export const routes = {
-  main: '/',
-  auth: '/auth',
-  formInfo: '/form-info',
-  dashboard: '/dashboard',
+export const ROUTES = {
+  MAIN: '/',
+  AUTH: '/auth',
+  FORM_INFO: '/form-info',
+  DASHBOARD: '/dashboard',
+  MENU: '/dashboard/menu',
 }

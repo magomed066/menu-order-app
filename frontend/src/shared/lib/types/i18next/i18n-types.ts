@@ -13,10 +13,18 @@ export interface AuthResources {
 export interface CommonResources {
   save: string
   cancel: string
+  dark: string
+  light: string
+  system: string
+}
+
+export interface MenuResources {
+  menu: string
 }
 
 // Merge all resources
 export interface Resources {
   auth: AuthResources
   common: CommonResources
+  menu: MenuResources
 }

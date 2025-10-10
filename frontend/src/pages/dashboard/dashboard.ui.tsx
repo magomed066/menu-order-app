@@ -1,30 +1,16 @@
-import { Card, PageCenterWrapper } from '@/shared/ui'
+import { Skeleton } from '@/shared/ui'
 
 function DashboardPage() {
   return (
-    <PageCenterWrapper>
-      <div className="max-w-[1200px] w-full">
-        <Card className="w-full px-5 min-h-[500px] h-full">
-          <h1>hello</h1>
-
-          {/* <CardHeader>
-            <CardTitle className="text-xl">Welcome back!</CardTitle>
-            <CardDescription>Please select & book</CardDescription>
-          </CardHeader>
-
-          <CardContent className="flex justify-between flex-wrap">
-            <Calendar
-              className="rounded-md border shadow-sm"
-              mode="single"
-              captionLayout="dropdown"
-              locale={ru}
-            />
-
-            <TimeSlotFeature />
-          </CardContent> */}
-        </Card>
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+        <Skeleton className="h-[200px] w-full rounded-xl" />
+        <Skeleton className="h-full w-full rounded-xl" />
+        <Skeleton className="h-full w-full rounded-xl" />
       </div>
-    </PageCenterWrapper>
+
+      <div className="bg-muted/60 min-h-[90vh] flex-1 rounded-xl md:min-h-min" />
+    </div>
   )
 }
 

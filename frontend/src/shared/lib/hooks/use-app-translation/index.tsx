@@ -1,0 +1,40 @@
+// // hooks/useAppTranslation.ts
+// import { useTranslation } from 'react-i18next'
+// import type { Resources } from '../../types'
+// type Namespace = keyof Resources
+// export const useAppTranslation = (ns?: Namespace | Namespace[]) => {
+//   const defaultNS: Namespace[] = ['common', 'auth', 'menu']
+//   return useTranslation(ns || defaultNS)
+// }
+// hooks/useAppTranslation.ts
+import { type UseTranslationResponse, useTranslation } from 'react-i18next'
+
+import type { Resources } from '../../types'
+
+type AllTranslationKeys = {
+  [K in keyof Resources]: `${Extract<K, string>}:${Extract<keyof Resources[K], string>}`
+}[keyof Resources]
+
+function useAppTranslation(): { t: (key: AllTranslationKeys) => string }
+function useAppTranslation(ns: keyof Resources): {
+  t: (key: keyof Resources[typeof ns]) => string
+}
+function useAppTranslation(
+  ns: (keyof Resources)[]
+): UseTranslationResponse<typeof ns, undefined>
+function useAppTranslation(ns?: keyof Resources | (keyof Resources)[]): any {
+  const defaultNS: (keyof Resources)[] = ['common', 'auth', 'menu']
+  const translation = useTranslation(ns ?? defaultNS)
+
+  if (!ns || Array.isArray(ns)) {
+    // When using multiple namespaces, cast t to accept all translation keys
+    return {
+      ...translation,
+      t: translation.t as (key: AllTranslationKeys) => string,
+    }
+  }
+
+  return translation
+}
+
+export { useAppTranslation }
