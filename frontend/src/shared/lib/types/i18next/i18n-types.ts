@@ -13,6 +13,9 @@ export interface AuthResources {
 export interface CommonResources {
   save: string
   cancel: string
+  dark: string
+  light: string
+  system: string
 }
 
 export interface MenuResources {

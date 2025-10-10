@@ -1,4 +1,7 @@
 {
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "dark": "Dark",
+  "light": "Light",
+  "system": "System"
 }
