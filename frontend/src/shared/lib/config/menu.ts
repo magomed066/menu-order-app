@@ -1,5 +1,10 @@
 // import i18next from 'i18next'
-import { List, type LucideProps } from 'lucide-react'
+import {
+  ChartNoAxesCombined,
+  List,
+  type LucideProps,
+  ScrollText,
+} from 'lucide-react'
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 import type { Resources } from '../types'
@@ -15,6 +20,7 @@ export type MenuItem = {
   icon: ForwardRefExoticComponent<
     Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
   >
+  disabled?: boolean
 }
 
 export type Menu = {
@@ -37,6 +43,17 @@ export const MENU_LIST: Menu = {
       title: 'menu:menu',
       url: ROUTES.MENU,
       icon: List,
+    },
+    {
+      title: 'Заказы',
+      url: ROUTES.ORDERS,
+      icon: ScrollText,
+    },
+    {
+      title: 'Аналитика',
+      url: ROUTES.ANALITICS,
+      icon: ChartNoAxesCombined,
+      disabled: true,
     },
   ],
 }

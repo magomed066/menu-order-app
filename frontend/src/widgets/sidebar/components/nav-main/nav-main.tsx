@@ -3,6 +3,7 @@
 import { Link } from 'react-router-dom'
 
 import { useAppTranslation } from '@/shared/lib/hooks'
+import { cn } from '@/shared/lib/utils'
 
 import {
   SidebarGroup,
@@ -23,7 +24,14 @@ function NavMain(props: Props) {
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {items.map((item) => (
-            <Link key={item.title} to={item.url}>
+            <Link
+              key={item.title}
+              to={item.url}
+              className={cn(
+                item?.disabled &&
+                  'pointer-events-none opacity-50 cursor-not-allowed'
+              )}
+            >
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}

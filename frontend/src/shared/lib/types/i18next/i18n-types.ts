@@ -20,6 +20,7 @@ export interface CommonResources {
 
 export interface MenuResources {
   menu: string
+  category: string
 }
 
 // Merge all resources
