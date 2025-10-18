@@ -5,11 +5,10 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "./dist/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon",
-    "prestart": "npm run build",
+    "build": "tsc && tsc-alias",
+    "dev": "concurrently \"tsc -w\" \"nodemon -q\"",
     "start": "node dist/index.js",
     "lint": "eslint 'src/**/*.{ts,js}'",
     "format": "prettier --write .",
@@ -19,15 +18,19 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.8.0",
+    "@types/pg": "^8.15.5",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.1",
     "colors": "^1.4.0",
+    "concurrently": "^9.2.1",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
@@ -37,5 +40,8 @@
     "express-validator": "^7.2.1",
     "moment": "^2.30.1",
     "pg": "^8.16.3"
+  },
+  "imports": {
+    "#/*": "./dist/*"
   }
 }

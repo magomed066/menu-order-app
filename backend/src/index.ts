@@ -2,11 +2,12 @@ import express, { type Request, type Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import colors from 'colors'
+// import pool from ''
 
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3000
 
 // Middleware
 app.use(cors())
@@ -22,6 +23,7 @@ app.post('/api/data', (req: Request, res: Response) => {
   res.json({ received: message, timestamp: new Date().toISOString() })
 })
 
+// pool.connect().then(() => {
 app.listen(PORT, () => {
   console.log(
     `Server has been started on port ${colors.bgBlue(
@@ -29,3 +31,4 @@ app.listen(PORT, () => {
     )}`,
   )
 })
+// })
