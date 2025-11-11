@@ -1,19 +1,11 @@
-import { Client, Pool } from 'pg'
+import { Sequelize } from 'sequelize'
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER_NAME } from './env'
 
-// const con = new Client({
-//   host: 'localhost',
-//   user: 'postgres',
-//   port: 5432,
-//   password: 'root123',
-//   database: 'order-app-db',
-// })
-
-const pool = new Pool({
-  host: 'db',
-  port: 5432,
-  user: 'user123',
-  password: 'password123',
-  database: 'db123',
+const sequelize = new Sequelize(DB_NAME, DB_USER_NAME, DB_PASSWORD, {
+  dialect: 'mysql',
+  ...(DB_PORT !== undefined ? { port: DB_PORT } : {}),
+  host: DB_HOST,
+  logging: false,
 })
 
-export default pool
+export default sequelize
