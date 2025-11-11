@@ -1,10 +1,12 @@
 import 'tsconfig-paths/register'
-import express, { type Request, type Response } from 'express'
-import cors from 'cors'
 import colors from 'colors'
-import { PORT } from './config/env'
-import sequelize from './config/db'
-import categoryRoutes from './modules/category/category.routes'
+import cors from 'cors'
+import express, { type Request, type Response } from 'express'
+
+import sequelize from '@config/db'
+import { PORT } from '@config/env'
+
+import categoryRoutes from '@modules/category/category.routes'
 
 const app = express()
 

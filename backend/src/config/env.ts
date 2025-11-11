@@ -10,7 +10,10 @@ function requireEnv(name: string): string {
   return value
 }
 
-function optionalNumberEnv(name: string, defaultValue?: number): number | undefined {
+function optionalNumberEnv(
+  name: string,
+  defaultValue?: number,
+): number | undefined {
   const value = process.env[name]
   if (value === undefined || value === '') return defaultValue
   const n = Number(value)
@@ -27,4 +30,3 @@ export const DB_HOST = requireEnv('DB_HOST')
 export const DB_PORT = optionalNumberEnv('DB_PORT')
 
 export const PORT = optionalNumberEnv('PORT', 3000) ?? 3000
-

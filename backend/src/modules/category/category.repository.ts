@@ -1,8 +1,9 @@
-import Category from './category.model'
 import type {
   CategoryAttributes,
   CategoryCreationAttributes,
-} from '../../dto/categories/category.dto'
+} from '@dto/categories/category.dto'
+
+import Category from './category.model'
 
 export class CategoryRepository {
   async create(payload: CategoryCreationAttributes): Promise<Category> {
@@ -17,7 +18,10 @@ export class CategoryRepository {
     return await Category.findByPk(id)
   }
 
-  async update(id: number, payload: Partial<CategoryAttributes>): Promise<Category | null> {
+  async update(
+    id: number,
+    payload: Partial<CategoryAttributes>,
+  ): Promise<Category | null> {
     const category = await Category.findByPk(id)
     if (!category) return null
     await category.update(payload)

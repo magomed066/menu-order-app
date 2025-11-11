@@ -10,6 +10,7 @@
     "dev": "concurrently \"tsc -w\" \"nodemon -q\"",
     "start": "node dist/index.js",
     "lint": "eslint 'src/**/*.{ts,js}'",
+    "lint:fix": "eslint 'src/**/*.{ts,js}' --fix",
     "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +26,7 @@
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",

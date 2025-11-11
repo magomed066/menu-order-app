@@ -1,9 +1,11 @@
 import { DataTypes, Model } from 'sequelize'
-import sequelize from '../../config/db'
+
+import sequelize from '@config/db'
+
 import type {
   CategoryAttributes,
   CategoryCreationAttributes,
-} from '../../dto/categories/category.dto'
+} from '@dto/categories/category.dto'
 
 export class Category
   extends Model<CategoryAttributes, CategoryCreationAttributes>

@@ -1,11 +1,12 @@
-import repo from './category.repository'
 import type {
   CategoryAttributes,
   CategoryCreationAttributes,
-} from '../../dto/categories/category.dto'
-import { CreateCategoryDto } from '../../dto/categories/create-category.dto'
-import { UpdateCategoryDto } from '../../dto/categories/update-category.dto'
-import { CategoryDto } from '../../dto/categories/category.dto'
+} from '@dto/categories/category.dto'
+import { CategoryDto } from '@dto/categories/category.dto'
+import { CreateCategoryDto } from '@dto/categories/create-category.dto'
+import { UpdateCategoryDto } from '@dto/categories/update-category.dto'
+
+import repo from './category.repository'
 
 export class CategoryService {
   async createCategory(payload: CreateCategoryDto): Promise<CategoryDto> {
@@ -55,7 +56,10 @@ export class CategoryService {
     id: number,
     payload: UpdateCategoryDto,
   ): Promise<CategoryDto> {
-    const updated = await repo.update(id, payload as Partial<CategoryAttributes>)
+    const updated = await repo.update(
+      id,
+      payload as Partial<CategoryAttributes>,
+    )
     if (!updated) throw new Error('Category not found')
     return {
       id: updated.id,

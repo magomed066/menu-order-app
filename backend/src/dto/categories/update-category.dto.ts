@@ -3,4 +3,3 @@ export interface UpdateCategoryDto {
   description?: string | null
   isActive?: boolean
 }
-
