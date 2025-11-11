@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios'
 
-import { apiService } from '../base'
+import { apiService } from '../../base'
 import { type LoginUser, type User } from './types'
 
 export class AuthService {
