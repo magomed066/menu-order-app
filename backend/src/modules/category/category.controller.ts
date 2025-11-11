@@ -11,8 +11,9 @@ class CategoryController {
       const payload: CreateCategoryDto = req.body
       const category = await service.createCategory(payload)
       res.status(201).json({ success: true, data: category })
-    } catch (err: any) {
-      res.status(400).json({ success: false, message: err.message })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Bad request'
+      res.status(400).json({ success: false, message })
     }
   }
 
@@ -26,8 +27,9 @@ class CategoryController {
       const id = Number(req.params.id)
       const category = await service.getCategoryById(id)
       res.json({ success: true, data: category })
-    } catch (err: any) {
-      res.status(404).json({ success: false, message: err.message })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Not found'
+      res.status(404).json({ success: false, message })
     }
   }
 
@@ -37,8 +39,9 @@ class CategoryController {
       const payload: UpdateCategoryDto = req.body
       const category = await service.updateCategory(id, payload)
       res.json({ success: true, data: category })
-    } catch (err: any) {
-      res.status(404).json({ success: false, message: err.message })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Not found'
+      res.status(404).json({ success: false, message })
     }
   }
 
@@ -47,8 +50,9 @@ class CategoryController {
       const id = Number(req.params.id)
       await service.deleteCategory(id)
       res.status(204).send()
-    } catch (err: any) {
-      res.status(404).json({ success: false, message: err.message })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Not found'
+      res.status(404).json({ success: false, message })
     }
   }
 }
