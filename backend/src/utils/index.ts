@@ -1,2 +1,5 @@
+export * from './auth/jwt'
+export * from './auth/password'
+export * from './validators/auth/auth'
 export * from './validators/categories/categories'
 export * from './validators/index'

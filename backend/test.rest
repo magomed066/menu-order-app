@@ -9,6 +9,28 @@ Content-Type: application/json
     "message": "Hello world"
 }
 
+// Auth API
+###
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Snow",
+    "email": "john@test.com",
+    "password": "123123"
+}
+
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{ 
+    "email": "test@test.com",
+    "password": "123123"
+}
+
+
 // Catergories API
 ###
 POST http://localhost:3000/api/categories
@@ -22,3 +44,5 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/categories
+
+

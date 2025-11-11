@@ -1,4 +1,5 @@
 import 'tsconfig-paths/register'
+
 import colors from 'colors'
 import cors from 'cors'
 import express, { type Request, type Response } from 'express'
@@ -7,6 +8,7 @@ import sequelize from '@config/db'
 import { PORT } from '@config/env'
 
 import categoryRoutes from '@modules/category/category.routes'
+import userRoutes from '@modules/user/user.routes'
 
 const app = express()
 
@@ -24,6 +26,7 @@ app.get('/api', (_: Request, res: Response) => {
 })
 
 app.use('/api/categories', categoryRoutes)
+app.use('/api/auth', userRoutes)
 
 sequelize
   .sync()
