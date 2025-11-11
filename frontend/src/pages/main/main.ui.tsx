@@ -32,7 +32,7 @@ function MainPage() {
           <Button variant="link">Dashboard</Button>
         </Link>
 
-        <Link to={ROUTES.AUTH}>
+        <Link to={ROUTES.ADMIN}>
           <Button variant="link">Auth</Button>
         </Link>
 

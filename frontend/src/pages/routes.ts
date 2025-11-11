@@ -9,7 +9,7 @@ import { ROUTES } from '@/shared/lib/config'
 export const publicRoutes = [
   {
     Component: AuthPage,
-    path: ROUTES.AUTH,
+    path: ROUTES.ADMIN,
   },
   {
     Component: MainPage,

@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
   Input,
@@ -39,20 +38,16 @@ function AuthFormFeature() {
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">{t('password')}</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto text-sm underline-offset-4 hover:underline"
-                  >
-                    {t('forgotPassword')}
-                  </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  placeholder={t('inputPassword')}
+                />
               </Field>
               <Field>
                 <Button type="submit">{t('login')}</Button>
-                <FieldDescription className="text-center">
-                  {t('doNotHaveAnAccount')} <a href="#">{t('signUp')}</a>
-                </FieldDescription>
               </Field>
             </FieldGroup>
           </form>
