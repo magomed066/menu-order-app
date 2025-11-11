@@ -2,17 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
+# Install deps based on current package files
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
+# Copy the rest needed to run/build
+COPY tsconfig.json ./
+COPY src ./src
 
-# Copy source code
-COPY . .
-
-# Expose port (adjust if needed)
-EXPOSE 5000
-
-# Start the server
-CMD ["npm", "start"]
+EXPOSE 3000
+CMD ["npm", "run", "dev"]

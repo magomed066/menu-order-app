@@ -1,0 +1,24 @@
+###
+GET http://localhost:3000/api
+
+###
+POST http://localhost:3000/api/data
+Content-Type: application/json
+
+{
+    "message": "Hello world"
+}
+
+// Catergories API
+###
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+    
+    "description": "Salads description",
+    "isActive": true
+}
+
+###
+GET http://localhost:3000/api/categories

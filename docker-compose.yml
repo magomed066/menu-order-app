@@ -1,14 +1,91 @@
-version: '3.8'
+# version: '3'
+
+# services:
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     ports:
+#       - '3000:3000'
+#     volumes:
+#       - ./backend/src:/app/src # For development hot-reload
+#       - ./backend/package.json:/app/package.json
+#     environment:
+#       - NODE_ENV=development
+
+#   db:
+#     image: postgres
+#     environment:
+#       POSTGRES_PASSWORD: password123
+#       POSTGRES_USER: user123
+#       POSTGRES_DB: db123
+
+#   # app:
+#   #   image: my-app
+#   #   ports:
+#   #     - 13000:3000
+
+# version: '3.9'
+
+# services:
+#   db:
+#     image: postgres:16-alpine
+#     environment:
+#       POSTGRES_USER: user123
+#       POSTGRES_PASSWORD: password123
+#       POSTGRES_DB: db123
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     ports:
+#       - '5432:5432'
+
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     command: sh -c "npm install && npm run dev"
+#     environment:
+#       NODE_ENV: development
+#       CHOKIDAR_USEPOLLING: '1' # helps hot-reload on Mac/Windows
+#       # DB_HOST: db                # set your app's DB env as needed
+#     volumes:
+#       - ./backend/src:/app/src
+#       - ./backend/package.json:/app/package.json
+#       - ./backend/tsconfig.json:/app/tsconfig.json
+
+#     ports:
+#       - '3000:3000'
+
+#     depends_on:
+#       - db
+
+# volumes:
+#   pgdata:
+
+name: 'menu-order-app'
 
 services:
-  backend:
-    build: ./backend
-    ports:
-      - '5000:5000'
+  postgres:
+    image: postgres:14-alpine
     environment:
-      - NODE_ENV=development
-      - PORT=5000
+      - POSTGRES_PASSWORD=S3cret
+      - POSTGRES_USER=citizix_user
+      - POSTGRES_DB=citizix_db
+    ports:
+      - 5432:5432
     volumes:
-      - ./backend:/
-      - /app/node_modules
+      - ~/apps/postgres:/var/lib/postgresql/data
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    # Restarts out container unless we manually stoped it
     restart: unless-stopped
+    env_file: ./backend/.env
+    volumes:
+      - ./backend:/app
+      # Ignore node_modules on the host machine
+      - /app/node_modules
+    ports:
+      # host port (localhost) - port of the container
+      - 3000:3000
