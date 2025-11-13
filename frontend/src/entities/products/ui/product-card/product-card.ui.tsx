@@ -19,7 +19,10 @@ function ProductCard(props: Props) {
           <span className="font-medium">{data.name}</span>
           <Badge variant="secondary">{data.category}</Badge>
         </div>
-        <div className="text-muted-foreground">
+        <div className="mb-2 ">
+          <span className="text-[13px] text-[#989898]">{data.description}</span>
+        </div>
+        <div className="text-muted-foreground mt-auto">
           {priceFormatter.format(Number(data.price))}
         </div>
       </CardContent>

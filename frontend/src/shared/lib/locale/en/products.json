@@ -2,5 +2,6 @@
   "name": "Name",
   "category": "Category",
   "price": "Price",
-  "image": "Image"
+  "image": "Image",
+  "description": "Description"
 }

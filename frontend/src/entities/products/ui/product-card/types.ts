@@ -5,5 +5,6 @@ export type Props = {
     name: string
     price: string
     category: string
+    description: string
   }
 }

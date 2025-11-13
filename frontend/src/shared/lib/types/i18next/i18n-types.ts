@@ -30,6 +30,7 @@ export interface ProductsResources {
   category: string
   price: string
   image: string
+  description: string
 }
 
 // Merge all resources
