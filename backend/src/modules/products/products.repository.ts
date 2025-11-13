@@ -1,7 +1,11 @@
+import { type FindOptions, Op, type WhereOptions } from 'sequelize'
+
 import type {
   ProductAttributes,
   ProductCreationAttributes,
 } from '@dto/products/product.dto'
+
+import Category from '@modules/category/category.model'
 
 import Product from './products.model'
 
@@ -10,12 +14,47 @@ export class ProductRepository {
     return await Product.create(payload)
   }
 
-  async findAll(): Promise<Product[]> {
-    return await Product.findAll({ order: [['id', 'ASC']] })
+  async findAll(params?: {
+    name?: string
+    categoryId?: number
+    limit?: number
+    offset?: number
+  }): Promise<Product[]> {
+    const where: WhereOptions = {}
+    if (params?.name) {
+      where.name = { [Op.like]: `%${params.name}%` }
+    }
+    if (params?.categoryId) {
+      where.categoryId = params.categoryId
+    }
+
+    const options: FindOptions = {
+      where,
+      order: [['id', 'ASC']],
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    }
+    if (params?.limit !== undefined) options.limit = params.limit
+    if (params?.offset !== undefined) options.offset = params.offset
+
+    return await Product.findAll(options)
   }
 
   async findById(id: number): Promise<Product | null> {
-    return await Product.findByPk(id)
+    return await Product.findByPk(id, {
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    })
   }
 
   async update(
@@ -25,7 +64,17 @@ export class ProductRepository {
     const product = await Product.findByPk(id)
     if (!product) return null
     await product.update(payload)
-    return product
+    // Return with included category
+    const refreshed = await Product.findByPk(product.id, {
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    })
+    return refreshed
   }
 
   async remove(id: number): Promise<boolean> {

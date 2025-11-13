@@ -5,6 +5,7 @@ import {
   createProductValidator,
   deleteProductValidator,
   getProductByIdValidator,
+  getProductsQueryValidator,
   updateProductValidator,
 } from '@src/utils'
 
@@ -16,6 +17,7 @@ router.get(
   '/all',
   authMiddleware,
   requireAnyRole(['admin', 'cashier']),
+  getProductsQueryValidator,
   controller.findAll,
 )
 router.get(

@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator'
+import { body, param, query } from 'express-validator'
 
 import { validate } from '..'
 
@@ -36,5 +36,13 @@ export const deleteProductValidator = [
   param('id')
     .isInt({ gt: 0 })
     .withMessage('id должен быть положительным числом'),
+  validate,
+]
+
+export const getProductsQueryValidator = [
+  query('page').optional().isInt({ gt: 0 }),
+  query('limit').optional().isInt({ gt: 0 }),
+  query('name').optional().isString().trim(),
+  query('categoryId').optional().isInt({ gt: 0 }),
   validate,
 ]
