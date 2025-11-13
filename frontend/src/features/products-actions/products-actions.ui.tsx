@@ -1,9 +1,11 @@
 import type { CreateProduct } from '@/shared/api/services'
+import { useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { type ChangeEvent, useEffect, useState } from 'react'
 import { useDebounceValue } from 'usehooks-ts'
 
 import { PRODUCT_FORMS, useCreateProductMutation } from '@/entities/products'
+import { productsQueryKeys } from '@/entities/products/model/consts'
 
 import { showToast } from '@/shared/lib/toast'
 import { useQueryParams } from '@/shared/lib/utils'
@@ -27,14 +29,21 @@ function ProductsActionsFeature() {
   const [open, setOpen] = useState(false)
   const { setQueryParams, removeQueryParam, getQueryParam } = useQueryParams()
   const defaultQuery = getQueryParam('search') || ''
+  const productsPageQuery = getQueryParam('page')
   const [query, setQuery] = useState(defaultQuery)
 
   const [debouncedValue] = useDebounceValue(query, 1000)
+
+  const client = useQueryClient()
 
   const { mutate, isPending } = useCreateProductMutation(
     () => {
       showToast('success', 'Продукт успешно сохранен')
       setOpen(false)
+
+      client.invalidateQueries({
+        queryKey: productsQueryKeys.all('', Number(productsPageQuery)),
+      })
     },
     (errors) => {
       errors.forEach((err) => {
