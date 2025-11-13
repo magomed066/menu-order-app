@@ -10,6 +10,7 @@ import { PORT } from '@config/env'
 import { swaggerSpec } from '@config/swagger'
 
 import categoryRoutes from '@modules/category/category.routes'
+import productRoutes from '@modules/products/products.routes'
 import userRoutes from '@modules/user/user.routes'
 
 const app = express()
@@ -29,6 +30,7 @@ app.get('/api', (_: Request, res: Response) => {
 })
 
 app.use('/api/categories', categoryRoutes)
+app.use('/api/products', productRoutes)
 app.use('/api/auth', userRoutes)
 
 sequelize

@@ -1,6 +1,9 @@
+import { Plus } from 'lucide-react'
+import { useMemo, useState } from 'react'
+
 import CategoriesListWidget from '@/widgets/categories-list'
 
-import { Card, CardContent, Input } from '@/shared/ui'
+import { Badge, Button, Card, CardContent, Input } from '@/shared/ui'
 
 const menuItems = [
   {
@@ -70,48 +73,77 @@ const menuItems = [
 ]
 
 function MenuPage() {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="w-full flex items-start flex-wrap md:flex-nowrap justify-between gap-10">
-        <CategoriesListWidget />
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState<string | null>(null)
 
-        <div className="w-full md:max-w-[300px]">
-          <Input placeholder="Search" />
-        </div>
+  const categories = useMemo(
+    () => Array.from(new Set(menuItems.map((i) => i.category))),
+    []
+  )
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return menuItems.filter((item) => {
+      const byCategory = category ? item.category === category : true
+      const byQuery = q
+        ? [item.name, item.category].some((v) => v.toLowerCase().includes(q))
+        : true
+      return byCategory && byQuery
+    })
+  }, [category, query])
+
+  const handleAddProduct = () => {
+    console.log('Add product clicked')
+  }
+
+  return (
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="flex w-full items-center gap-3">
+        <Input
+          placeholder="Поиск по меню"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="max-w-[420px]"
+        />
+        <div className="flex-1" />
+        <Button onClick={handleAddProduct}>
+          <Plus /> Добавить продукт
+        </Button>
       </div>
 
-      <div className="flex-1 overflow-auto">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {menuItems.map((item) => (
-            <Card
-              key={item.id}
-              className="cursor-pointer transition-shadow hover:shadow-lg p-0"
-            >
-              <CardContent className="p-0">
-                <div className="relative aspect-video overflow-hidden rounded-t-lg">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="object-contain"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="mb-1 font-semibold">{item.name}</h3>
-                  <p className="text-muted-foreground mb-2 text-sm">
-                    {item.category}
-                  </p>
-                  <p className="text-lg font-bold">${item.price.toFixed(2)}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      <CategoriesListWidget
+        categories={categories}
+        selected={category}
+        onSelect={setCategory}
+      />
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filtered.map((item) => (
+          <Card key={item.id} className="overflow-hidden p-0">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="h-40 w-full object-cover"
+              loading="lazy"
+            />
+            <CardContent className="py-4">
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <span className="font-medium">{item.name}</span>
+                <Badge variant="secondary">{item.category}</Badge>
+              </div>
+              <div className="text-muted-foreground">
+                ${item.price.toFixed(2)}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-muted-foreground col-span-full py-10 text-center">
+            Ничего не найдено
+          </div>
+        )}
       </div>
     </div>
-
-    // <div className="max-w-[1200px] w-full">
-    //   <h2>Menu Page</h2>
-    // </div>
   )
 }
 

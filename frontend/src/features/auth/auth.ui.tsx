@@ -1,10 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
 import { useLoginMutation, useUserStore } from '@/entities/auth'
 
+import { ROUTES } from '@/shared/lib/config'
 import { showToast } from '@/shared/lib/toast'
 import { cn } from '@/shared/lib/utils'
 
@@ -25,17 +28,17 @@ import { formSchema } from './validation'
 
 function AuthFormFeature() {
   const { t } = useTranslation(['auth'])
-
-  const { setUser, setTokens } = useUserStore()
+  const { setUser, setTokens, accessToken } = useUserStore()
+  const navigate = useNavigate()
 
   const { mutateAsync, isPending } = useLoginMutation(
     (data) => {
       const { user, token } = data
       setUser(user)
       setTokens(token)
+      navigate(ROUTES.DASHBOARD)
     },
     (err) => {
-      console.log(err)
       showToast('error', String(err), {
         description: t('loginError'),
       })
@@ -53,6 +56,12 @@ function AuthFormFeature() {
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     mutateAsync(data)
   }
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate(ROUTES.DASHBOARD)
+    }
+  }, [accessToken])
 
   return (
     <div className={cn('flex flex-col gap-6')}>
