@@ -25,9 +25,17 @@ export interface MenuResources {
   category: string
 }
 
+export interface ProductsResources {
+  name: string
+  category: string
+  price: string
+  image: string
+}
+
 // Merge all resources
 export interface Resources {
   auth: AuthResources
   common: CommonResources
   menu: MenuResources
+  products: ProductsResources
 }

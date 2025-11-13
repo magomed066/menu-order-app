@@ -3,7 +3,7 @@ export const ROUTES = {
   ADMIN: '/admin',
   FORM_INFO: '/form-info',
   DASHBOARD: '/dashboard',
-  MENU: '/dashboard/menu',
+  PRODUCTS: '/dashboard/products',
   ORDERS: '/dashboard/orders',
   ANALITICS: '/dashboard/analitics',
 }
