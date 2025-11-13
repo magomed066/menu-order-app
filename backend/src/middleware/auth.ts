@@ -46,3 +46,20 @@ export function requireRole(role: UserRole) {
 }
 
 export const adminOnly = requireRole('admin')
+
+export function requireAnyRole(roles: UserRole[]) {
+  return async (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.userId) {
+      res.status(401).json({ success: false, message: 'Unauthorized' })
+      return
+    }
+    const user = await userRepo.findById(req.userId)
+    if (!user || !roles.includes(user.role)) {
+      res.status(403).json({ success: false, message: 'Forbidden' })
+      return
+    }
+    next()
+  }
+}
+
+export const cashierOrAdmin = requireAnyRole(['cashier', 'admin'])
