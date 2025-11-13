@@ -15,11 +15,12 @@ export type ProductCreationAttributes = Optional<
   'id' | 'image' | 'createdAt' | 'updatedAt'
 >
 
-export type ProductDto = Required<
-  Omit<ProductAttributes, 'image' | 'createdAt' | 'updatedAt'> & {
-    image: string | null
-    createdAt: Date
-    updatedAt: Date
-  }
->
-
+// Response DTO including category name and stringified price
+export type ProductDto = {
+  id: number
+  name: string
+  price: string
+  image: string
+  category: string
+  categoryId: number
+}

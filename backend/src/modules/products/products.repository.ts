@@ -3,6 +3,8 @@ import type {
   ProductCreationAttributes,
 } from '@dto/products/product.dto'
 
+import Category from '@modules/category/category.model'
+
 import Product from './products.model'
 
 export class ProductRepository {
@@ -11,11 +13,28 @@ export class ProductRepository {
   }
 
   async findAll(): Promise<Product[]> {
-    return await Product.findAll({ order: [['id', 'ASC']] })
+    return await Product.findAll({
+      order: [['id', 'ASC']],
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    })
   }
 
   async findById(id: number): Promise<Product | null> {
-    return await Product.findByPk(id)
+    return await Product.findByPk(id, {
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    })
   }
 
   async update(
@@ -25,7 +44,17 @@ export class ProductRepository {
     const product = await Product.findByPk(id)
     if (!product) return null
     await product.update(payload)
-    return product
+    // Return with included category
+    const refreshed = await Product.findByPk(product.id, {
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    })
+    return refreshed
   }
 
   async remove(id: number): Promise<boolean> {

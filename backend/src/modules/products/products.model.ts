@@ -7,6 +7,8 @@ import type {
   ProductCreationAttributes,
 } from '@dto/products/product.dto'
 
+import Category from '@modules/category/category.model'
+
 export class Product
   extends Model<ProductAttributes, ProductCreationAttributes>
   implements ProductAttributes
@@ -35,6 +37,12 @@ Product.init(
     categoryId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
+      references: {
+        model: 'categories',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
     },
     price: {
       // Using FLOAT for simplicity; DECIMAL returns strings
@@ -55,5 +63,8 @@ Product.init(
     underscored: false,
   },
 )
+
+// Associations
+Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' })
 
 export default Product
