@@ -3,18 +3,23 @@ import {
   type Product,
   ProductsService,
 } from '@/shared/api/services'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 import type { RequestErrors } from '@/shared/lib/types'
+
+import { productsQueryKeys } from './consts'
 
 export const useCreateProductMutation = (
   onSuccess?: (data: Product) => void,
   onError?: (err: RequestErrors['errors']) => void
 ) => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (data: CreateProduct) => ProductsService.createProduct(data),
     onSuccess: async (res) => {
+      await queryClient.invalidateQueries({ queryKey: productsQueryKeys.all() })
       onSuccess?.(res.data)
     },
     onError: (err: AxiosError<RequestErrors>) => {
@@ -23,4 +28,18 @@ export const useCreateProductMutation = (
       }
     },
   })
+}
+export const useGetProducts = () => {
+  const { data, isFetching, isError } = useQuery({
+    queryKey: productsQueryKeys.all(),
+    queryFn: () => ProductsService.getProducts(),
+    refetchOnWindowFocus: true,
+    staleTime: 0,
+  })
+
+  return {
+    products: data?.data,
+    isError,
+    isFetching,
+  }
 }

@@ -3,7 +3,7 @@ export type Props = {
     id: number
     image: string
     name: string
-    price: number
+    price: string
     category: string
   }
 }

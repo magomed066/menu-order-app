@@ -14,13 +14,13 @@ function ProductCard(props: Props) {
         className="h-40 w-full object-cover"
         loading="lazy"
       />
-      <CardContent className="py-4">
+      <CardContent className="py-4 pt-0">
         <div className="mb-2 flex items-center justify-between gap-2">
           <span className="font-medium">{data.name}</span>
           <Badge variant="secondary">{data.category}</Badge>
         </div>
         <div className="text-muted-foreground">
-          {priceFormatter.format(data.price)}
+          {priceFormatter.format(Number(data.price))}
         </div>
       </CardContent>
     </Card>
