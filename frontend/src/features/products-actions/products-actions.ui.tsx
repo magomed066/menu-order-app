@@ -1,5 +1,6 @@
 import type { CreateProduct } from '@/shared/api/services'
 import { Plus } from 'lucide-react'
+import { useState } from 'react'
 
 import { PRODUCT_FORMS, useCreateProductMutation } from '@/entities/products'
 
@@ -21,9 +22,12 @@ import {
 import ProductFormFeature from '../product-form'
 
 function ProductsActionsFeature() {
+  const [open, setOpen] = useState(false)
+
   const { mutate, isPending } = useCreateProductMutation(
     () => {
       showToast('success', 'Продукт успешно сохранен')
+      setOpen(false)
     },
     (errors) => {
       errors.forEach((err) => {
@@ -41,7 +45,7 @@ function ProductsActionsFeature() {
       <Input placeholder="Поиск по меню" className="w-full md:max-w-[420px] " />
       <div className="flex-1" />
 
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
             <Plus /> Добавить продукт

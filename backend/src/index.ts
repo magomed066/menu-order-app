@@ -17,7 +17,9 @@ const app = express()
 
 // Middleware
 app.use(cors())
-app.use(express.json())
+// Increase body size limits to handle base64 images
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 app.use('/api-docs-json', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // Routes
