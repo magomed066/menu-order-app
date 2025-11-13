@@ -1,7 +1,5 @@
 import type { AxiosResponse } from 'axios'
 
-import type { QueryParams } from '@/shared/lib/utils'
-
 import { apiService } from '../../base'
 import type { CreateProduct, Product } from './types'
 

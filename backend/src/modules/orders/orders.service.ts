@@ -12,6 +12,7 @@ import type {
 import type { UpdateOrderDto } from '@dto/orders/update-order.dto'
 
 import Product from '@modules/products/products.model'
+import Table from '@modules/tables/tables.model'
 
 import Order, { OrderDelivery, OrderDineIn, OrderItem } from './orders.model'
 import repo from './orders.repository'
@@ -85,6 +86,11 @@ export class OrdersService {
   }
 
   async createDineInOrder(payload: CreateOrderDineInDto): Promise<OrderDto> {
+    // Validate table exists and is active to avoid FK errors
+    const table = await Table.findByPk(payload.tableId)
+    if (!table || (table as any).isActive === false) {
+      throw new Error('Table not found or inactive')
+    }
     const items = await this.materializeItems(payload.items)
     const created = await repo.create(
       { orderType: 'dine_in', status: 'pending' },

@@ -5,9 +5,11 @@ export type Product = {
   image: string
   category: string
   categoryId: number
+  description: string
 }
 
 export type CreateProduct = Pick<Product, 'name' | 'price'> & {
   categoryId: number
   image?: string
+  description?: string
 }

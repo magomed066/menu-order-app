@@ -1,6 +1,7 @@
 import AuthPage from '@/pages/auth'
 import DashboardPage from '@/pages/dashboard'
 import MainPage from '@/pages/main'
+import CartPage from '@/pages/cart'
 import OrdersPage from '@/pages/orders'
 import ProductsPage from '@/pages/products'
 
@@ -14,6 +15,10 @@ export const publicRoutes = [
   {
     Component: MainPage,
     path: ROUTES.MAIN,
+  },
+  {
+    Component: CartPage,
+    path: ROUTES.CART,
   },
 ]
 
