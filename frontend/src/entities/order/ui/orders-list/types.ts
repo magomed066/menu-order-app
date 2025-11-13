@@ -1,10 +1,7 @@
+import type { OrderGroup } from '../../model/types'
+
 export type Props = {
-  data: {
-    status: string
-    label: string
-    orders: {
-      number: number
-      status: string
-    }[]
-  }
+  data: OrderGroup
+  activeOrderId?: number
+  onSelect?: (id: number) => void
 }

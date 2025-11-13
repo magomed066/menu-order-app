@@ -72,4 +72,5 @@ export type OrderDto = {
   items: OrderItemDto[]
   dineIn?: OrderDineInDetails | null
   delivery?: OrderDeliveryDetails | null
+  createdAt?: Date
 }

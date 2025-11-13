@@ -41,6 +41,7 @@ export class OrdersService {
       unitPrice: String(it.unitPrice),
       specialInstructions: it.specialInstructions ?? '',
     })),
+    createdAt: o.createdAt,
     dineIn: o.dineIn
       ? {
           tableId: o.dineIn.tableId,
@@ -88,7 +89,7 @@ export class OrdersService {
   async createDineInOrder(payload: CreateOrderDineInDto): Promise<OrderDto> {
     // Validate table exists and is active to avoid FK errors
     const table = await Table.findByPk(payload.tableId)
-    if (!table || (table as any).isActive === false) {
+    if (!table || table.isActive === false) {
       throw new Error('Table not found or inactive')
     }
     const items = await this.materializeItems(payload.items)
