@@ -13,7 +13,7 @@ import controller from './products.controller'
 const router = Router()
 
 router.get(
-  '/',
+  '/all',
   authMiddleware,
   requireAnyRole(['admin', 'cashier']),
   controller.findAll,
@@ -26,21 +26,21 @@ router.get(
   controller.findOne,
 )
 router.post(
-  '/',
+  '/create',
   authMiddleware,
   adminOnly,
   createProductValidator,
   controller.create,
 )
 router.put(
-  '/:id',
+  '/update/:id',
   authMiddleware,
   adminOnly,
   updateProductValidator,
   controller.update,
 )
 router.delete(
-  '/:id',
+  '/delete/:id',
   authMiddleware,
   adminOnly,
   deleteProductValidator,

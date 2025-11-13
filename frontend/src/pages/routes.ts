@@ -1,8 +1,8 @@
 import AuthPage from '@/pages/auth'
 import DashboardPage from '@/pages/dashboard'
 import MainPage from '@/pages/main'
-import MenuPage from '@/pages/menu'
 import OrdersPage from '@/pages/orders'
+import ProductsPage from '@/pages/products'
 
 import { ROUTES } from '@/shared/lib/config'
 
@@ -23,8 +23,8 @@ export const privateRoutes = [
     path: ROUTES.DASHBOARD,
   },
   {
-    Component: MenuPage,
-    path: ROUTES.MENU,
+    Component: ProductsPage,
+    path: ROUTES.PRODUCTS,
   },
   {
     Component: OrdersPage,

@@ -41,7 +41,7 @@ export const MENU_LIST: Menu = {
   navMain: [
     {
       title: 'menu:menu',
-      url: ROUTES.MENU,
+      url: ROUTES.PRODUCTS,
       icon: List,
     },
     {
