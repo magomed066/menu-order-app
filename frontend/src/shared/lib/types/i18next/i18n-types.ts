@@ -8,6 +8,8 @@ export interface AuthResources {
   email: string
   password: string
   loginWelcome: string
+  inputPassword: string
+  loginError: string
 }
 
 export interface CommonResources {
