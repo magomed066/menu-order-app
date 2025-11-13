@@ -1,0 +1,9 @@
+{
+  "main": "Menu",
+  "cart": "Cart",
+  "admin": "Admin",
+  "dashboard": "Dashboard",
+  "products": "Products",
+  "orders": "Orders",
+  "analytics": "Analytics"
+}

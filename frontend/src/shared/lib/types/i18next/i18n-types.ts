@@ -33,10 +33,21 @@ export interface ProductsResources {
   description: string
 }
 
+export interface PagesResources {
+  main: string
+  cart: string
+  admin: string
+  dashboard: string
+  products: string
+  orders: string
+  analytics: string
+}
+
 // Merge all resources
 export interface Resources {
   auth: AuthResources
   common: CommonResources
   menu: MenuResources
   products: ProductsResources
+  pages: PagesResources
 }

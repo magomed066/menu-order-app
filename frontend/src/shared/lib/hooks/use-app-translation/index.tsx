@@ -11,7 +11,7 @@ import { type UseTranslationResponse, useTranslation } from 'react-i18next'
 
 import type { Resources } from '../../types'
 
-type AllTranslationKeys = {
+export type AllTranslationKeys = {
   [K in keyof Resources]: `${Extract<K, string>}:${Extract<keyof Resources[K], string>}`
 }[keyof Resources]
 
@@ -21,7 +21,8 @@ function useAppTranslation(ns: keyof Resources): {
 }
 function useAppTranslation(
   ns: (keyof Resources)[]
-): UseTranslationResponse<typeof ns, undefined>
+): { t: (key: AllTranslationKeys) => string } &
+  UseTranslationResponse<typeof ns, undefined>
 function useAppTranslation(ns?: keyof Resources | (keyof Resources)[]): any {
   const defaultNS: (keyof Resources)[] = ['common', 'auth', 'menu']
   const translation = useTranslation(ns ?? defaultNS)
