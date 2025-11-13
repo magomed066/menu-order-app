@@ -20,7 +20,7 @@ class ProductsController {
   findAll = async (req: Request, res: Response) => {
     const page = req.query.page ? Number(req.query.page) : undefined
     const limit = req.query.limit ? Number(req.query.limit) : undefined
-    const name = req.query.name ? String(req.query.name) : undefined
+    const name = req.query.search ? String(req.query.search) : undefined
     const categoryId = req.query.categoryId
       ? Number(req.query.categoryId)
       : undefined

@@ -5,8 +5,15 @@ import {
   useGetProducts,
 } from '@/entities/products'
 
+import { useQueryParams } from '@/shared/lib/utils'
+
 function ProductsListWidget() {
-  const { isFetching, products } = useGetProducts()
+  const { getQueryParam } = useQueryParams()
+  const searchQuery = getQueryParam('search')
+
+  const { isFetching, products } = useGetProducts({
+    search: searchQuery,
+  })
 
   if (isFetching) {
     return (

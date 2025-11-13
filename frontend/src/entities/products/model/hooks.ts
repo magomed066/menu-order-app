@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 import type { RequestErrors } from '@/shared/lib/types'
+import type { QueryParams } from '@/shared/lib/utils'
 
 import { productsQueryKeys } from './consts'
 
@@ -29,10 +30,12 @@ export const useCreateProductMutation = (
     },
   })
 }
-export const useGetProducts = () => {
+export const useGetProducts = (params: QueryParams) => {
+  const { page = 1, search = '', ...restParams } = params
   const { data, isFetching, isError } = useQuery({
-    queryKey: productsQueryKeys.all(),
-    queryFn: () => ProductsService.getProducts(),
+    queryKey: productsQueryKeys.all(search, Number(page), restParams),
+    queryFn: () =>
+      ProductsService.getProducts(search, Number(page), restParams),
     refetchOnWindowFocus: true,
     staleTime: 0,
   })
