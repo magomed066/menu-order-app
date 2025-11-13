@@ -32,8 +32,22 @@ export class ProductService {
     return this.toDto(withCategory ?? created)
   }
 
-  async getProducts(): Promise<ProductDto[]> {
-    const items = await repo.findAll()
+  async getProducts(params?: {
+    page?: number
+    limit?: number
+    name?: string
+    categoryId?: number
+  }): Promise<ProductDto[]> {
+    const page = params?.page && params.page > 0 ? params.page : 1
+    const limit = params?.limit && params.limit > 0 ? params.limit : undefined
+    const offset = limit !== undefined ? (page - 1) * limit : undefined
+
+    const items = await repo.findAll({
+      name: params?.name,
+      categoryId: params?.categoryId,
+      limit,
+      offset,
+    })
     return items.map((p) => this.toDto(p))
   }
 

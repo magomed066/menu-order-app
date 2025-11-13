@@ -1,3 +1,5 @@
+import { type FindOptions, Op, type WhereOptions } from 'sequelize'
+
 import type {
   ProductAttributes,
   ProductCreationAttributes,
@@ -12,8 +14,22 @@ export class ProductRepository {
     return await Product.create(payload)
   }
 
-  async findAll(): Promise<Product[]> {
-    return await Product.findAll({
+  async findAll(params?: {
+    name?: string
+    categoryId?: number
+    limit?: number
+    offset?: number
+  }): Promise<Product[]> {
+    const where: WhereOptions = {}
+    if (params?.name) {
+      where.name = { [Op.like]: `%${params.name}%` }
+    }
+    if (params?.categoryId) {
+      where.categoryId = params.categoryId
+    }
+
+    const options: FindOptions = {
+      where,
       order: [['id', 'ASC']],
       include: [
         {
@@ -22,7 +38,11 @@ export class ProductRepository {
           attributes: ['id', 'name'],
         },
       ],
-    })
+    }
+    if (params?.limit !== undefined) options.limit = params.limit
+    if (params?.offset !== undefined) options.offset = params.offset
+
+    return await Product.findAll(options)
   }
 
   async findById(id: number): Promise<Product | null> {
