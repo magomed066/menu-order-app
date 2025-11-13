@@ -15,10 +15,6 @@ export const publicRoutes = [
     Component: MainPage,
     path: ROUTES.MAIN,
   },
-  // {
-  //   Component: DashboardPage,
-  //   path: ROUTES.DASHBOARD,
-  // },
 ]
 
 export const privateRoutes = [
