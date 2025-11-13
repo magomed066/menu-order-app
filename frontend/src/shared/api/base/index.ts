@@ -1,8 +1,4 @@
-import axios, {
-  AxiosError,
-  type AxiosInstance,
-  type AxiosRequestConfig,
-} from 'axios'
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
 
 export class ApiBase {
   private client: AxiosInstance
@@ -39,10 +35,10 @@ export class ApiBase {
       // Handling 498 error
       async (error) => {
         // Handling 401 error
-        if (error instanceof AxiosError && error.response?.status === 401) {
-          localStorage.clear()
-          window.location.replace('/')
-        }
+        // if (error instanceof AxiosError && error.response?.status === 401) {
+        //   localStorage.clear()
+        //   window.location.replace('/')
+        // }
 
         return Promise.reject(error)
       }

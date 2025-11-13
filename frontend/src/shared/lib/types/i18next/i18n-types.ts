@@ -9,6 +9,7 @@ export interface AuthResources {
   password: string
   loginWelcome: string
   inputPassword: string
+  loginError: string
 }
 
 export interface CommonResources {

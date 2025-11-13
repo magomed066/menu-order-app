@@ -1,7 +1,10 @@
-import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
-import { cn } from '@/shared/lib/utils'
 import type { VariantProps } from 'class-variance-authority'
+import * as React from 'react'
+
+import { cn } from '@/shared/lib/utils'
+
+import { Spinner } from '../spinner'
 import { buttonVariants } from './config'
 
 function Button({
@@ -13,6 +16,7 @@ function Button({
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    loading?: boolean
   }) {
   const Comp = asChild ? Slot : 'button'
 
@@ -25,4 +29,20 @@ function Button({
   )
 }
 
-export { Button }
+function ButtonLoading(
+  props: React.ComponentProps<'button'> &
+    VariantProps<typeof buttonVariants> & {
+      asChild?: boolean
+      loading?: boolean
+    }
+) {
+  const { loading = false, children } = props
+  return (
+    <Button {...props} disabled={loading}>
+      {loading && <Spinner />}
+      {children}
+    </Button>
+  )
+}
+
+export { Button, ButtonLoading }

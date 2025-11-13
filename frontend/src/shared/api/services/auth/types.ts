@@ -8,6 +8,11 @@ export type User = {
   role: UserRole
 }
 
+export type LoginUserSuccess = {
+  token: string
+  user: User
+}
+
 export type LoginUser = Pick<User, 'email'> & {
   password: string
 }
