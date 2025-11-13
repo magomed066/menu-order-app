@@ -2,7 +2,6 @@ import {
   AuthService,
   type LoginUser,
   type LoginUserSuccess,
-  type User,
 } from '@/shared/api/services'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'

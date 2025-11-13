@@ -43,7 +43,7 @@ Product.init(
       validate: { min: 0 },
     },
     image: {
-      type: DataTypes.STRING(1024),
+      type: DataTypes.TEXT('long'),
       allowNull: true,
     },
   },

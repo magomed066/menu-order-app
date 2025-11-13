@@ -1,7 +1,13 @@
+import type { CreateProduct } from '@/shared/api/services'
 import { Plus } from 'lucide-react'
+
+import { PRODUCT_FORMS, useCreateProductMutation } from '@/entities/products'
+
+import { showToast } from '@/shared/lib/toast'
 
 import {
   Button,
+  ButtonLoading,
   Dialog,
   DialogClose,
   DialogContent,
@@ -15,9 +21,24 @@ import {
 import ProductFormFeature from '../product-form'
 
 function ProductsActionsFeature() {
+  const { mutate, isPending } = useCreateProductMutation(
+    () => {
+      showToast('success', 'Продукт успешно сохранен')
+    },
+    (errors) => {
+      errors.forEach((err) => {
+        showToast('error', err.msg, {})
+      })
+    }
+  )
+
+  const handleCreateProductSubmit = (values: CreateProduct) => {
+    mutate(values)
+  }
+
   return (
     <div className="flex w-full items-center gap-3">
-      <Input placeholder="Поиск по меню" className="max-w-[420px]" />
+      <Input placeholder="Поиск по меню" className="w-full md:max-w-[420px] " />
       <div className="flex-1" />
 
       <Dialog>
@@ -32,13 +53,26 @@ function ProductsActionsFeature() {
             <DialogTitle>Добавить продукт</DialogTitle>
           </DialogHeader>
 
-          <ProductFormFeature />
+          <ProductFormFeature
+            id={PRODUCT_FORMS.CREATE}
+            onSubmit={handleCreateProductSubmit}
+          />
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Отменить</Button>
+              <Button disabled={isPending} variant="outline">
+                Отменить
+              </Button>
             </DialogClose>
-            <Button type="submit">Сохранить</Button>
+
+            <ButtonLoading
+              loading={isPending}
+              disabled={isPending}
+              type="submit"
+              form={PRODUCT_FORMS.CREATE}
+            >
+              Сохранить
+            </ButtonLoading>
           </DialogFooter>
         </DialogContent>
       </Dialog>
