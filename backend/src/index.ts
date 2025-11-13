@@ -12,6 +12,7 @@ import { swaggerSpec } from '@config/swagger'
 import categoryRoutes from '@modules/category/category.routes'
 import productRoutes from '@modules/products/products.routes'
 import userRoutes from '@modules/user/user.routes'
+import ordersRoutes from '@modules/orders/orders.routes'
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.get('/api', (_: Request, res: Response) => {
 app.use('/api/categories', categoryRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/auth', userRoutes)
+app.use('/api/orders', ordersRoutes)
 
 sequelize
   .sync()

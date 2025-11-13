@@ -21,6 +21,7 @@ export class ProductService {
     image: p.image ?? '',
     category: p.category?.name ?? '',
     categoryId: p.categoryId,
+    description: p.description ?? '',
   })
 
   async createProduct(payload: CreateProductDto): Promise<ProductDto> {
@@ -36,6 +37,7 @@ export class ProductService {
     page?: number
     limit?: number
     name?: string
+    description?: string
     categoryId?: number
   }): Promise<ProductDto[]> {
     const page = params?.page && params.page > 0 ? params.page : 1
@@ -44,6 +46,7 @@ export class ProductService {
 
     const items = await repo.findAll({
       name: params?.name,
+      description: params?.description,
       categoryId: params?.categoryId,
       limit,
       offset,
