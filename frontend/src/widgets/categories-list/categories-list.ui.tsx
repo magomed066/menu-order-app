@@ -1,14 +1,45 @@
 import { Button, ScrollArea, ScrollBar } from '@/shared/ui'
 
-const categoriesList = ['Pizza', 'Coffe', 'Drink', 'Hamburger']
+type Props = {
+  categories: string[]
+  selected?: string | null
+  onSelect?: (category: string | null) => void
+  includeAll?: boolean
+}
 
-function CategoriesListWidget() {
+function CategoriesListWidget({
+  categories,
+  selected = null,
+  onSelect,
+  includeAll = true,
+}: Props) {
+  const handleClick = (category: string | null) => () => {
+    onSelect?.(category)
+  }
+
+  const items = includeAll
+    ? (['Все', ...categories] as const)
+    : (categories as const)
+
+  const isSelected = (label: string) => {
+    if (label === 'Все') return selected == null
+    return selected === label
+  }
+
+  const toValue = (label: string): string | null =>
+    label === 'Все' ? null : label
+
   return (
-    <ScrollArea className="w-[70%] pb-4">
-      <div className="flex items-center gap-3">
-        {categoriesList.map((el) => (
-          <Button key={el} variant="outline">
-            {el}
+    <ScrollArea className="w-full pb-2">
+      <div className="flex items-center gap-2">
+        {items.map((label) => (
+          <Button
+            key={label}
+            variant={isSelected(label) ? 'default' : 'outline'}
+            size="sm"
+            onClick={handleClick(toValue(label))}
+          >
+            {label}
           </Button>
         ))}
       </div>
