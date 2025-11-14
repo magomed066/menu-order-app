@@ -35,6 +35,7 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
       price: '',
       categoryId: 0,
       image: '',
+      description: '',
     },
   })
 
@@ -64,67 +65,85 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
   }
 
   return (
-    <h1>
-      <div className="grid gap-4">
-        <form id={id} onSubmit={form.handleSubmit(handleSubmit)}>
-          <FieldGroup className="grid gap-3">
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ fieldState, field }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="name">{t('name')}</FieldLabel>
-                  <Input
-                    {...field}
-                    id="name"
-                    aria-invalid={fieldState.invalid}
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="price"
-              control={form.control}
-              render={({ fieldState, field }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="price">{t('price')}</FieldLabel>
-                  <Input
-                    {...field}
-                    id="price"
-                    type="number"
-                    aria-invalid={fieldState.invalid}
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <RHFSelectBox
-              name="categoryId"
-              control={form.control}
-              label={t('category')}
-              placeholder={t('category')}
-              options={categoryOptions}
-              parseValue={(v) => Number(v)}
-              formatValue={(v) =>
-                v === undefined || v === null ? undefined : String(v as number)
-              }
-            />
+    <div className="grid gap-4">
+      <form id={id} onSubmit={form.handleSubmit(handleSubmit)}>
+        <FieldGroup className="grid gap-3">
+          <Controller
+            name="name"
+            control={form.control}
+            render={({ fieldState, field }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="name">{t('name')}</FieldLabel>
+                <Input
+                  {...field}
+                  id="name"
+                  aria-invalid={fieldState.invalid}
+                  autoComplete="off"
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="description"
+            control={form.control}
+            render={({ fieldState, field }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="description">
+                  {t('description')}
+                </FieldLabel>
+                <Input
+                  {...field}
+                  id="description"
+                  aria-invalid={fieldState.invalid}
+                  autoComplete="off"
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="price"
+            control={form.control}
+            render={({ fieldState, field }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="price">{t('price')}</FieldLabel>
+                <Input
+                  {...field}
+                  id="price"
+                  type="number"
+                  aria-invalid={fieldState.invalid}
+                  autoComplete="off"
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <RHFSelectBox
+            name="categoryId"
+            control={form.control}
+            label={t('category')}
+            placeholder={t('category')}
+            options={categoryOptions}
+            parseValue={(v) => Number(v)}
+            formatValue={(v) =>
+              v === undefined || v === null ? undefined : String(v as number)
+            }
+          />
 
-            <Dropzone onDrop={handleDrop} multiple={false} src={files}>
-              <DropzoneEmptyState />
-              <DropzoneContent />
-            </Dropzone>
-          </FieldGroup>
-        </form>
-      </div>
-    </h1>
+          <Dropzone onDrop={handleDrop} multiple={false} src={files}>
+            <DropzoneEmptyState />
+            <DropzoneContent />
+          </Dropzone>
+        </FieldGroup>
+      </form>
+    </div>
   )
 }
 

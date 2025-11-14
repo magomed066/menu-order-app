@@ -20,6 +20,7 @@ export const createProductValidator = [
     .withMessage('categoryId должен быть положительным числом'),
   body('price').isFloat({ gt: 0 }).withMessage('price должен быть больше 0'),
   body('image').optional({ nullable: true }).isString(),
+  body('description').optional({ nullable: true }).isString(),
   validate,
 ]
 
@@ -29,6 +30,7 @@ export const updateProductValidator = [
   body('categoryId').optional().isInt({ gt: 0 }),
   body('price').optional().isFloat({ gt: 0 }),
   body('image').optional({ nullable: true }).isString(),
+  body('description').optional({ nullable: true }).isString(),
   validate,
 ]
 
@@ -43,6 +45,7 @@ export const getProductsQueryValidator = [
   query('page').optional().isInt({ gt: 0 }),
   query('limit').optional().isInt({ gt: 0 }),
   query('name').optional().isString().trim(),
+  query('description').optional().isString().trim(),
   query('categoryId').optional().isInt({ gt: 0 }),
   validate,
 ]

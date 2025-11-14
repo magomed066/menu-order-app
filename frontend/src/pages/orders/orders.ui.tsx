@@ -3,7 +3,7 @@ import OrdersListWidget from '@/widgets/orders-list'
 
 function OrdersPage() {
   return (
-    <div className="w-full items-stretch">
+    <div className="w-full items-stretch p-4">
       <div className="flex flex-wrap gap-5">
         <OrdersListWidget />
         <OrderCardWidget />

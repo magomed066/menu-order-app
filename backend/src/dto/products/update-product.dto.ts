@@ -3,5 +3,5 @@ export interface UpdateProductDto {
   categoryId?: number
   price?: number
   image?: string | null
+  description?: string | null
 }
-

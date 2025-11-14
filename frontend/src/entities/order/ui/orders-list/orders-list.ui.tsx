@@ -1,47 +1,46 @@
-import { cn } from '@/shared/lib/utils'
+import { useAppTranslation } from '@/shared/lib/hooks'
+import { cn, getOrderStatusBadgeCn } from '@/shared/lib/utils'
 
 import { Badge, Item, ItemContent, ItemTitle } from '@/shared/ui'
 
-import { ORDER_STATUS } from '../../model/constants'
 import type { Props } from './types'
 
 function OrdersList(props: Props) {
-  const { data } = props
+  const { t } = useAppTranslation()
+  const { data, onSelect, activeOrderId } = props
+
+  const handleSelect = (number: number) => {
+    onSelect?.(number)
+  }
 
   return (
     <div className="flex flex-col gap-2">
-      <h3>{data.label}</h3>
+      <h3>{t(data.label as any)}</h3>
       <div className="flex flex-col gap-4">
-        {data.orders.map((el, index) => (
+        {data.list.map((el) => (
           <Item
-            key={el.number}
+            key={el.id}
             variant="outline"
             size="sm"
             asChild
             className={cn(
-              index === 0 &&
-                el.status === ORDER_STATUS.NEW &&
-                'bg-slate-100 dark:bg-slate-900'
+              'hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer',
+              activeOrderId === el.id && 'bg-slate-100 dark:bg-slate-900 '
             )}
+            onClick={() => handleSelect(el.id)}
           >
-            <a href="#">
+            <div>
               <ItemContent>
-                <ItemTitle>Заказ №{el.number}</ItemTitle>
+                <ItemTitle>
+                  {t('pages:order')} №{el.id}
+                </ItemTitle>
               </ItemContent>
               <ItemContent>
-                <Badge
-                  className={cn(
-                    'dark:text-white',
-                    data.status === ORDER_STATUS.NEW &&
-                      'bg-blue-500 dark:bg-blue-800',
-                    data.status === ORDER_STATUS.COMPLETED &&
-                      'bg-green-500 dark:bg-green-800'
-                  )}
-                >
-                  {data.label}
+                <Badge className={getOrderStatusBadgeCn(el)}>
+                  {t(data.label as any)}
                 </Badge>
               </ItemContent>
-            </a>
+            </div>
           </Item>
         ))}
       </div>

@@ -1,6 +1,7 @@
 import { Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
+import { useAppTranslation } from '@/shared/lib/hooks'
 import type { LocaleKeys } from '@/shared/lib/types'
 
 import {
@@ -13,6 +14,7 @@ import {
 
 function LocaleToggleFeature() {
   const { i18n } = useTranslation()
+  const { t } = useAppTranslation()
 
   const handleChangeLangyage = (lng: LocaleKeys) => {
     i18n.changeLanguage(lng)
@@ -27,10 +29,10 @@ function LocaleToggleFeature() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => handleChangeLangyage('en')}>
-          English
+          {t('pages:language_en')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleChangeLangyage('ru')}>
-          Русский
+          {t('pages:language_ru')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

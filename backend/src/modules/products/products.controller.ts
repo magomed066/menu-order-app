@@ -21,6 +21,9 @@ class ProductsController {
     const page = req.query.page ? Number(req.query.page) : undefined
     const limit = req.query.limit ? Number(req.query.limit) : undefined
     const name = req.query.search ? String(req.query.search) : undefined
+    const description = req.query.description
+      ? String(req.query.description)
+      : undefined
     const categoryId = req.query.categoryId
       ? Number(req.query.categoryId)
       : undefined
@@ -28,6 +31,7 @@ class ProductsController {
       page,
       limit,
       name,
+      description,
       categoryId,
     })
     res.json({ success: true, data: products })

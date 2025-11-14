@@ -16,6 +16,7 @@ export class ProductRepository {
 
   async findAll(params?: {
     name?: string
+    description?: string
     categoryId?: number
     limit?: number
     offset?: number
@@ -23,6 +24,9 @@ export class ProductRepository {
     const where: WhereOptions = {}
     if (params?.name) {
       where.name = { [Op.like]: `%${params.name}%` }
+    }
+    if (params?.description) {
+      ;(where as any).description = { [Op.like]: `%${params.description}%` }
     }
     if (params?.categoryId) {
       where.categoryId = params.categoryId

@@ -18,6 +18,7 @@ export class Product
   public categoryId!: number
   public price!: number
   public image!: string | null
+  public description!: string | null
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -52,6 +53,10 @@ Product.init(
     },
     image: {
       type: DataTypes.TEXT('long'),
+      allowNull: true,
+    },
+    description: {
+      type: DataTypes.STRING(1024),
       allowNull: true,
     },
   },
