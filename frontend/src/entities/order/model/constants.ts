@@ -7,11 +7,11 @@ export const ORDER_STATUSES = {
 }
 
 export const ORDER_STATUS_LABEL = {
-  [ORDER_STATUSES.PENDING]: 'Новый',
-  [ORDER_STATUSES.COOKING]: 'В процессе',
-  [ORDER_STATUSES.COMPLETED]: 'Завершен',
-  [ORDER_STATUSES.CANCElED]: 'Отменен',
-  [ORDER_STATUSES.READY]: 'Готов',
+  [ORDER_STATUSES.PENDING]: 'pages:status_pending',
+  [ORDER_STATUSES.COOKING]: 'pages:status_cooking',
+  [ORDER_STATUSES.COMPLETED]: 'pages:status_completed',
+  [ORDER_STATUSES.CANCElED]: 'pages:status_cancelled',
+  [ORDER_STATUSES.READY]: 'pages:status_ready',
 }
 
 export const ordersQueryKeys = {

@@ -7,6 +7,7 @@ import { useDebounceValue } from 'usehooks-ts'
 import { PRODUCT_FORMS, useCreateProductMutation } from '@/entities/products'
 import { productsQueryKeys } from '@/entities/products/model/consts'
 
+import { type AllTranslationKeys, useAppTranslation } from '@/shared/lib/hooks'
 import { showToast } from '@/shared/lib/toast'
 import { useQueryParams } from '@/shared/lib/utils'
 
@@ -26,6 +27,7 @@ import {
 import ProductFormFeature from '../product-form'
 
 function ProductsActionsFeature() {
+  const { t } = useAppTranslation()
   const [open, setOpen] = useState(false)
   const { setQueryParams, removeQueryParam, getQueryParam } = useQueryParams()
   const defaultQuery = getQueryParam('search') || ''
@@ -38,7 +40,7 @@ function ProductsActionsFeature() {
 
   const { mutate, isPending } = useCreateProductMutation(
     () => {
-      showToast('success', 'Продукт успешно сохранен')
+      showToast('success', t('pages:productSaved' as AllTranslationKeys))
       setOpen(false)
 
       client.invalidateQueries({
@@ -76,7 +78,7 @@ function ProductsActionsFeature() {
   return (
     <div className="flex w-full items-center gap-3">
       <Input
-        placeholder="Поиск по меню"
+        placeholder={t('pages:searchMenuPlaceholder')}
         className="w-full md:max-w-[420px]"
         defaultValue={defaultQuery}
         value={query}
@@ -87,13 +89,13 @@ function ProductsActionsFeature() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> Добавить продукт
+            <Plus /> {t('pages:addProduct')}
           </Button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Добавить продукт</DialogTitle>
+            <DialogTitle>{t('pages:addProductDialogTitle')}</DialogTitle>
           </DialogHeader>
 
           <ProductFormFeature
@@ -104,7 +106,7 @@ function ProductsActionsFeature() {
           <DialogFooter>
             <DialogClose asChild>
               <Button disabled={isPending} variant="outline">
-                Отменить
+                {t('common:cancel')}
               </Button>
             </DialogClose>
 
@@ -114,7 +116,7 @@ function ProductsActionsFeature() {
               type="submit"
               form={PRODUCT_FORMS.CREATE}
             >
-              Сохранить
+              {t('common:save')}
             </ButtonLoading>
           </DialogFooter>
         </DialogContent>

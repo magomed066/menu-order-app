@@ -9,6 +9,7 @@ import { useDropzone } from 'react-dropzone'
 import { cn } from '@/shared/lib/utils'
 
 import { Button } from '../button'
+import { useAppTranslation } from '@/shared/lib/hooks'
 
 type DropzoneContextType = {
   src?: File[]
@@ -123,6 +124,7 @@ export const DropzoneContent = ({
   className,
 }: DropzoneContentProps) => {
   const { src } = useDropzoneContext()
+  const { t } = useAppTranslation()
 
   if (!src) {
     return null
@@ -145,7 +147,7 @@ export const DropzoneContent = ({
           : new Intl.ListFormat('en').format(src.map((file) => file.name))}
       </p>
       <p className="w-full text-wrap text-muted-foreground text-xs">
-        Перетащите или щелкните, чтобы загрузить изображение
+        {t('pages:dropzone_hint')}
       </p>
     </div>
   )
@@ -161,6 +163,7 @@ export const DropzoneEmptyState = ({
   className,
 }: DropzoneEmptyStateProps) => {
   const { src, accept, maxSize, minSize, maxFiles } = useDropzoneContext()
+  const { t } = useAppTranslation()
 
   if (src) {
     return null
@@ -191,10 +194,10 @@ export const DropzoneEmptyState = ({
         <UploadIcon size={16} />
       </div>
       <p className="my-2 w-full truncate text-wrap font-medium text-sm">
-        Загрузите {maxFiles === 1 ? 'изображение' : 'изображения'}
+        {maxFiles === 1 ? t('pages:dropzone_upload_image') : t('pages:dropzone_upload_images')}
       </p>
       <p className="w-full truncate text-wrap text-muted-foreground text-xs">
-        Перетащите или щелкните, чтобы загрузить изображение
+        {t('pages:dropzone_hint')}
       </p>
       {caption && (
         <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>

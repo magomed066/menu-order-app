@@ -1,17 +1,22 @@
+import { OrdersService } from '@/shared/api/services/orders'
 import { useState } from 'react'
 
 import { useCart } from '@/entities/cart/model/store'
 
-import { OrdersService } from '@/shared/api/services/orders'
-import { priceFormatter } from '@/shared/lib/utils'
+import { useAppTranslation } from '@/shared/lib/hooks'
 import { notify } from '@/shared/lib/toast'
+import { priceFormatter } from '@/shared/lib/utils'
+
 import { Button, Card, CardContent, Input, SelectBox } from '@/shared/ui'
 
 function CartPage() {
+  const { t } = useAppTranslation()
   const { items, setQty, remove, total, clear } = useCart()
   const [tableId, setTableId] = useState<number>(1)
   const [guestCount, setGuestCount] = useState<number>(1)
-  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash' | 'card_waiter'>('cash')
+  const [paymentMethod, setPaymentMethod] = useState<
+    'online' | 'cash' | 'card_waiter'
+  >('cash')
   const [loading, setLoading] = useState(false)
 
   const placeOrder = async () => {
@@ -24,10 +29,10 @@ function CartPage() {
         paymentMethod,
         items: items.map((i) => ({ productId: i.id, quantity: i.quantity })),
       })
-      notify('success', 'Заказ оформлен')
+      notify('success', t('pages:orderPlaced'))
       clear()
     } catch (e) {
-      notify('error', 'Не удалось оформить заказ')
+      notify('error', t('pages:orderPlaceError'))
     } finally {
       setLoading(false)
     }
@@ -35,17 +40,22 @@ function CartPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-4">
-      <h1 className="text-xl font-semibold">Корзина</h1>
+      <h1 className="text-xl font-semibold">{t('pages:cartTitle')}</h1>
       <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
         <Card>
           <CardContent className="p-4">
             {!items.length ? (
-              <div className="text-muted-foreground">Корзина пуста</div>
+              <div className="text-muted-foreground">
+                {t('pages:emptyCart')}
+              </div>
             ) : (
               <div className="flex flex-col gap-4">
                 {items.map((i) => (
                   <div key={i.id} className="flex items-center gap-4">
-                    <img src={i.image} className="h-16 w-16 rounded object-cover" />
+                    <img
+                      src={i.image}
+                      className="h-16 w-16 rounded object-cover"
+                    />
                     <div className="flex-1">
                       <div className="font-medium">{i.name}</div>
                       <div className="text-sm text-muted-foreground">
@@ -53,7 +63,11 @@ function CartPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button size="icon" variant="outline" onClick={() => setQty(i.id, i.quantity - 1)}>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => setQty(i.id, i.quantity - 1)}
+                      >
                         -
                       </Button>
                       <Input
@@ -63,12 +77,16 @@ function CartPage() {
                         value={i.quantity}
                         onChange={(e) => setQty(i.id, Number(e.target.value))}
                       />
-                      <Button size="icon" variant="outline" onClick={() => setQty(i.id, i.quantity + 1)}>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => setQty(i.id, i.quantity + 1)}
+                      >
                         +
                       </Button>
                     </div>
                     <Button variant="destructive" onClick={() => remove(i.id)}>
-                      Удалить
+                      {t('pages:delete')}
                     </Button>
                   </div>
                 ))}
@@ -79,7 +97,9 @@ function CartPage() {
         <Card>
           <CardContent className="flex flex-col gap-4 p-4">
             <div>
-              <div className="mb-2 text-sm text-muted-foreground">Столик</div>
+              <div className="mb-2 text-sm text-muted-foreground">
+                {t('pages:table')}
+              </div>
               <Input
                 type="number"
                 min={1}
@@ -88,7 +108,9 @@ function CartPage() {
               />
             </div>
             <div>
-              <div className="mb-2 text-sm text-muted-foreground">Количество гостей</div>
+              <div className="mb-2 text-sm text-muted-foreground">
+                {t('pages:guestCount')}
+              </div>
               <Input
                 type="number"
                 min={1}
@@ -97,22 +119,27 @@ function CartPage() {
               />
             </div>
             <div>
-              <div className="mb-2 text-sm text-muted-foreground">Оплата</div>
+              <div className="mb-2 text-sm text-muted-foreground">
+                {t('pages:payment')}
+              </div>
               <SelectBox
                 options={[
-                  { label: 'Онлайн', value: 'online' },
-                  { label: 'Наличные', value: 'cash' },
-                  { label: 'Картой официанту', value: 'card_waiter' },
+                  { label: t('pages:payment_online'), value: 'online' },
+                  { label: t('pages:payment_cash'), value: 'cash' },
+                  {
+                    label: t('pages:payment_card_waiter'),
+                    value: 'card_waiter',
+                  },
                 ]}
                 value={paymentMethod}
                 onValueChange={(v) => setPaymentMethod(v as any)}
               />
             </div>
             <div className="mt-2 text-lg font-semibold">
-              Итого: {priceFormatter.format(total)}
+              {t('pages:total')} {priceFormatter.format(total)}
             </div>
             <Button disabled={!items.length || loading} onClick={placeOrder}>
-              Оформить заказ
+              {t('pages:placeOrder')}
             </Button>
           </CardContent>
         </Card>

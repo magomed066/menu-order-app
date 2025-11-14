@@ -1,3 +1,4 @@
+import { useAppTranslation } from '@/shared/lib/hooks'
 import { cn, getOrderStatusBadgeCn } from '@/shared/lib/utils'
 
 import { Badge, Item, ItemContent, ItemTitle } from '@/shared/ui'
@@ -5,6 +6,7 @@ import { Badge, Item, ItemContent, ItemTitle } from '@/shared/ui'
 import type { Props } from './types'
 
 function OrdersList(props: Props) {
+  const { t } = useAppTranslation()
   const { data, onSelect, activeOrderId } = props
 
   const handleSelect = (number: number) => {
@@ -13,7 +15,7 @@ function OrdersList(props: Props) {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3>{data.label}</h3>
+      <h3>{t(data.label as any)}</h3>
       <div className="flex flex-col gap-4">
         {data.list.map((el) => (
           <Item
@@ -29,11 +31,13 @@ function OrdersList(props: Props) {
           >
             <div>
               <ItemContent>
-                <ItemTitle>Заказ №{el.id}</ItemTitle>
+                <ItemTitle>
+                  {t('pages:order')} №{el.id}
+                </ItemTitle>
               </ItemContent>
               <ItemContent>
                 <Badge className={getOrderStatusBadgeCn(el)}>
-                  {data.label}
+                  {t(data.label as any)}
                 </Badge>
               </ItemContent>
             </div>

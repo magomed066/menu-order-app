@@ -1,3 +1,5 @@
+import { useAppTranslation } from '@/shared/lib/hooks'
+
 import { Button, ScrollArea, ScrollBar } from '@/shared/ui'
 
 type Props = {
@@ -13,13 +15,12 @@ function CategoriesListWidget({
   onSelect,
   includeAll = true,
 }: Props) {
+  const { t } = useAppTranslation()
   const handleClick = (category: string | null) => () => {
     onSelect?.(category)
   }
 
-  const items = includeAll
-    ? (['Все', ...categories] as const)
-    : (categories as const)
+  const items = includeAll ? (['Все', ...categories] as const) : categories
 
   const isSelected = (label: string) => {
     if (label === 'Все') return selected == null
@@ -39,7 +40,7 @@ function CategoriesListWidget({
             size="sm"
             onClick={handleClick(toValue(label))}
           >
-            {label}
+            {label === 'Все' ? t('pages:all') : label}
           </Button>
         ))}
       </div>

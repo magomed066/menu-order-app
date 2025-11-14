@@ -1,6 +1,5 @@
 import type { OrderStatus } from '@/shared/api/services/orders/types'
 import { useQueryClient } from '@tanstack/react-query'
-import { format } from 'date-fns'
 import { useMemo } from 'react'
 
 import {
@@ -10,6 +9,8 @@ import {
 } from '@/entities/order'
 import { useGetOrder, useUpdateOrderStatus } from '@/entities/order/model/hooks'
 
+import { useAppTranslation } from '@/shared/lib/hooks'
+import type { AllTranslationKeys } from '@/shared/lib/hooks'
 import { showToast } from '@/shared/lib/toast'
 import {
   formattedDate,
@@ -30,6 +31,7 @@ import {
 import { Spinner } from '@/shared/ui/spinner'
 
 function OrderCardWidget() {
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
 
   const { getQueryParam } = useQueryParams()
@@ -41,7 +43,7 @@ function OrderCardWidget() {
     queryClient.refetchQueries({
       queryKey: ordersQueryKeys.byId(Number(orderId)),
     })
-    showToast('success', 'Статус обновлен')
+    showToast('success', t('pages:statusUpdated'))
   })
 
   const nextStatus: OrderStatus | null = useMemo(() => {
@@ -77,9 +79,9 @@ function OrderCardWidget() {
   return (
     <Card className="flex-1 px-4">
       <CardTitle className="flex items-center justify-between">
-        Заказ №{order.id}
+        {t('pages:order')} №{order.id}
         <Badge className={getOrderStatusBadgeCn(order)}>
-          {ORDER_STATUS_LABEL[order.status]}
+          {t(ORDER_STATUS_LABEL[order.status] as AllTranslationKeys)}
         </Badge>
       </CardTitle>
 
@@ -88,10 +90,15 @@ function OrderCardWidget() {
       <CardContent>
         <div className="flex flex-col gap-4">
           {order.dineIn ? (
-            <p className="text-md font-bold">Стол №{order.dineIn.tableId}</p>
+            <p className="text-md font-bold">
+              {t('pages:tableShort')}
+              {order.dineIn.tableId}
+            </p>
           ) : order.delivery ? (
             <div className="text-sm">
-              <div>Доставка: {order.delivery.deliveryAddress}</div>
+              <div>
+                {t('pages:delivery')} {order.delivery.deliveryAddress}
+              </div>
             </div>
           ) : null}
 
@@ -99,14 +106,14 @@ function OrderCardWidget() {
 
           <p className="text-md">
             <span className="text-slate-700 dark:text-white">
-              Время заказа:
+              {t('pages:orderTime')}
             </span>{' '}
             <span className="font-bold">{formattedDate(order.createdAt)}</span>
           </p>
         </div>
         <Separator className="my-4" />
         <div>
-          <h2 className="mb-4 text-lg">Заказанные товары:</h2>
+          <h2 className="mb-4 text-lg">{t('pages:orderedItems')}</h2>
           <div className="flex flex-col gap-2 border-y border-gray-200 p-3">
             {order.items.map((it) => (
               <div key={it.id} className="flex items-center justify-between">
@@ -124,16 +131,16 @@ function OrderCardWidget() {
 
       <CardFooter className="mt-auto flex items-center justify-between border-t">
         <p className="text-lg font-bold">
-          Итого: {priceFormatter.format(Number(order.totalAmount))}
+          {t('pages:total')} {priceFormatter.format(Number(order.totalAmount))}
         </p>
         {nextStatus && (
           <Button
             onClick={handleStatus}
             className="bg-green-500 dark:bg-green-800 dark:text-white"
           >
-            {nextStatus === 'cooking' && 'В процесс'}
-            {nextStatus === 'ready' && 'Готово'}
-            {nextStatus === 'completed' && 'Завершить'}
+            {nextStatus === 'cooking' && t('pages:toCooking')}
+            {nextStatus === 'ready' && t('pages:toReady')}
+            {nextStatus === 'completed' && t('pages:toCompleted')}
           </Button>
         )}
       </CardFooter>

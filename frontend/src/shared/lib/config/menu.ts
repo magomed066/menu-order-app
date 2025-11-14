@@ -45,12 +45,12 @@ export const MENU_LIST: Menu = {
       icon: List,
     },
     {
-      title: 'Заказы',
+      title: 'pages:orders',
       url: ROUTES.ORDERS,
       icon: ScrollText,
     },
     {
-      title: 'Аналитика',
+      title: 'pages:analytics',
       url: ROUTES.ANALITICS,
       icon: ChartNoAxesCombined,
       disabled: true,
