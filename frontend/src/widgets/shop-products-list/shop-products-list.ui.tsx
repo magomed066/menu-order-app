@@ -14,10 +14,12 @@ function ShopProductsListWidget() {
   const { t } = useAppTranslation()
   const { getQueryParam } = useQueryParams()
   const searchQuery = getQueryParam('search')
+  const categoryId = getQueryParam('categoryId')
   const { add } = useCart()
 
   const { isFetching, products } = useGetProducts({
     search: searchQuery,
+    categoryId,
   })
 
   if (isFetching) {

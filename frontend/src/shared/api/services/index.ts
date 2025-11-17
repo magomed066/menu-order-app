@@ -6,3 +6,6 @@ export * from './products/index'
 
 export * from './orders/index'
 export * from './orders/types'
+
+export * from './categories/index'
+export * from './categories/types'

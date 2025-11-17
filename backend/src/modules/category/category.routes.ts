@@ -12,7 +12,7 @@ import controller from './category.controller'
 
 const router = Router()
 
-router.get('/', controller.findAll)
+router.get('/all', controller.findAll)
 router.get('/:id', getCategoryByIdValidator, controller.findOne)
 router.post(
   '/',
@@ -22,14 +22,14 @@ router.post(
   controller.create,
 )
 router.put(
-  '/:id',
+  '/update/:id',
   authMiddleware,
   adminOnly,
   updateCategoryValidator,
   controller.update,
 )
 router.delete(
-  '/:id',
+  '/delete/:id',
   authMiddleware,
   adminOnly,
   deleteCategoryValidator,
