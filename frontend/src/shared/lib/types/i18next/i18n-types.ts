@@ -25,14 +25,6 @@ export interface MenuResources {
   category: string
 }
 
-export interface ProductsResources {
-  name: string
-  category: string
-  price: string
-  image: string
-  description: string
-}
-
 export interface PagesResources {
   main: string
   cart: string
@@ -51,6 +43,7 @@ export interface PagesResources {
   addProduct: string
   addProductDialogTitle: string
   orderPlaced: string
+  productSaved: string
   orderPlaceError: string
   emptyCart: string
   table: string
@@ -84,11 +77,19 @@ export interface PagesResources {
   dropzone_upload_images: string
 }
 
+export interface ProductsResources {
+  name: string
+  category: string
+  price: string
+  image: string
+  description: string
+}
+
 // Merge all resources
 export interface Resources {
   auth: AuthResources
   common: CommonResources
   menu: MenuResources
-  products: ProductsResources
   pages: PagesResources
+  products: ProductsResources
 }
