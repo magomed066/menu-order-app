@@ -19,6 +19,9 @@ function CheckoutOrderFeature() {
   const [customerName, setCustomerName] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
   const [deliveryAddress, setDeliveryAddress] = useState('')
+  const [deliveryPaymentMethod, setDeliveryPaymentMethod] = useState<
+    'online' | 'cash_on_delivery'
+  >('cash_on_delivery')
   const { items, total, clear } = useCart()
 
   const { mutate, isPending } = useCreateOrderMutation(() => {
@@ -60,7 +63,7 @@ function CheckoutOrderFeature() {
       deliveryTime: undefined,
       deliveryAddress,
       deliveryFee: undefined,
-      paymentMethod: 'cash_on_delivery',
+      paymentMethod: deliveryPaymentMethod,
       items: items.map((i) => ({ productId: i.id, quantity: i.quantity })),
     })
   }
@@ -132,6 +135,26 @@ function CheckoutOrderFeature() {
               <Input
                 value={deliveryAddress}
                 onChange={(e) => setDeliveryAddress(e.target.value)}
+              />
+            </div>
+            <div>
+              <div className="mb-2 text-sm text-muted-foreground">
+                {t('pages:payment')}
+              </div>
+              <SelectBox
+                options={[
+                  { label: t('pages:payment_online'), value: 'online' },
+                  {
+                    label: t('pages:payment_cash'),
+                    value: 'cash_on_delivery',
+                  },
+                ]}
+                value={deliveryPaymentMethod}
+                onValueChange={(v) =>
+                  setDeliveryPaymentMethod(
+                    v as 'online' | 'cash_on_delivery',
+                  )
+                }
               />
             </div>
           </>
