@@ -33,6 +33,31 @@ class ProductsController {
       name,
       description,
       categoryId,
+      // In admin panel we want to see all products,
+      // including inactive/hidden ones
+      onlyActive: false,
+    })
+    res.json({ success: true, data: products })
+  }
+
+  // Public endpoint: only active products are visible to end users
+  findPublic = async (req: Request, res: Response) => {
+    const page = req.query.page ? Number(req.query.page) : undefined
+    const limit = req.query.limit ? Number(req.query.limit) : undefined
+    const name = req.query.search ? String(req.query.search) : undefined
+    const description = req.query.description
+      ? String(req.query.description)
+      : undefined
+    const categoryId = req.query.categoryId
+      ? Number(req.query.categoryId)
+      : undefined
+    const products = await service.getProducts({
+      page,
+      limit,
+      name,
+      description,
+      categoryId,
+      onlyActive: true,
     })
     res.json({ success: true, data: products })
   }

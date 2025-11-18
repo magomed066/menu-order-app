@@ -72,6 +72,26 @@ export const useGetProducts = (params: QueryParams) => {
   }
 }
 
+export const useGetPublicProducts = (params: QueryParams) => {
+  const { page = 1, search = '', ...restParams } = params
+  const { data, isFetching, isError } = useQuery({
+    queryKey: productsQueryKeys.all(search, Number(page), {
+      ...restParams,
+      scope: 'public',
+    }),
+    queryFn: () =>
+      ProductsService.getPublicProducts(search, Number(page), restParams),
+    refetchOnWindowFocus: true,
+    staleTime: 0,
+  })
+
+  return {
+    products: data?.data,
+    isError,
+    isFetching,
+  }
+}
+
 export const useGetProduct = (id?: number) => {
   const enabled = typeof id === 'number' && id > 0
   const { data, isFetching, isError } = useQuery({

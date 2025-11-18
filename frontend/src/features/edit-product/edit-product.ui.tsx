@@ -10,6 +10,7 @@ import { useGetProduct } from '@/entities/products'
 import { getBase64, useQueryParams } from '@/shared/lib/utils'
 
 import {
+  Checkbox,
   Dropzone,
   DropzoneContent,
   DropzoneEmptyState,
@@ -45,6 +46,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
       categoryId: product?.categoryId,
       image: product?.image,
       description: product?.description,
+      isActive: product?.isActive ?? true,
     },
   })
 
@@ -62,6 +64,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
         categoryId: product.categoryId,
         image: product.image ?? '',
         description: product.description ?? '',
+        isActive: product.isActive,
       })
     }
   }, [product, form])
@@ -150,6 +153,26 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
                 )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="isActive"
+            control={form.control}
+            render={({ field }) => (
+              <Field>
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id="isActive"
+                    checked={field.value}
+                    onCheckedChange={(checked) =>
+                      field.onChange(Boolean(checked))
+                    }
+                  />
+                  <FieldLabel htmlFor="isActive">
+                    {t('isActive')}
+                  </FieldLabel>
+                </div>
               </Field>
             )}
           />

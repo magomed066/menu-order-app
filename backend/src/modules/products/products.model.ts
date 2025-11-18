@@ -19,6 +19,7 @@ export class Product
   public price!: number
   public image!: string | null
   public description!: string | null
+  public isActive!: boolean
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -58,6 +59,11 @@ Product.init(
     description: {
       type: DataTypes.STRING(1024),
       allowNull: true,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
     },
   },
   {

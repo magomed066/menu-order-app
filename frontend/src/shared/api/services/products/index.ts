@@ -19,6 +19,21 @@ export class ProductsService {
     })
   }
 
+  static getPublicProducts(
+    search: string,
+    page: number,
+    params: Record<string, string | number>
+  ): Promise<AxiosResponse<Product[]>> {
+    return apiService.get<AxiosResponse<Product[]>>('/products/public', {
+      params: {
+        ...(search && { search }),
+        page,
+        limit: 20,
+        ...params,
+      },
+    })
+  }
+
   static createProduct(data: CreateProduct): Promise<AxiosResponse<Product>> {
     return apiService.post<AxiosResponse<Product>>('/products/create', data)
   }

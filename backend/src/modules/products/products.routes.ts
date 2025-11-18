@@ -20,6 +20,8 @@ router.get(
   getProductsQueryValidator,
   controller.findAll,
 )
+// Public products list: only active products
+router.get('/public', getProductsQueryValidator, controller.findPublic)
 router.get(
   '/:id',
   authMiddleware,

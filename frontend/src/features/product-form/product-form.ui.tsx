@@ -8,6 +8,7 @@ import * as z from 'zod'
 import { getBase64 } from '@/shared/lib/utils'
 
 import {
+  Checkbox,
   Dropzone,
   DropzoneContent,
   DropzoneEmptyState,
@@ -37,6 +38,7 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
       categoryId: 0,
       image: '',
       description: '',
+      isActive: true,
     },
   })
 
@@ -172,6 +174,27 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
               </div>
             </div>
           )}
+
+          <Controller
+            name="isActive"
+            control={form.control}
+            render={({ field }) => (
+              <Field>
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id="isActive"
+                    checked={field.value}
+                    onCheckedChange={(checked) =>
+                      field.onChange(Boolean(checked))
+                    }
+                  />
+                  <FieldLabel htmlFor="isActive">
+                    {t('isActive')}
+                  </FieldLabel>
+                </div>
+              </Field>
+            )}
+          />
         </FieldGroup>
       </form>
     </div>

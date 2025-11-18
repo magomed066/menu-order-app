@@ -91,6 +91,7 @@ export interface ProductsResources {
   price: string
   image: string
   description: string
+  isActive: string
 }
 
 // Merge all resources

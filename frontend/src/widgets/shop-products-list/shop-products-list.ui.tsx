@@ -2,7 +2,7 @@ import { useCart } from '@/entities/cart/model/store'
 import {
   ProductCard,
   ProductCardSkeleton,
-  useGetProducts,
+  useGetPublicProducts,
 } from '@/entities/products'
 
 import AddToCartFeature from '@/features/add-to-cart'
@@ -17,7 +17,7 @@ function ShopProductsListWidget() {
   const categoryId = getQueryParam('categoryId')
   const { items } = useCart()
 
-  const { isFetching, products } = useGetProducts({
+  const { isFetching, products } = useGetPublicProducts({
     search: searchQuery,
     categoryId,
   })

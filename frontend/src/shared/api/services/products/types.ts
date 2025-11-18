@@ -6,10 +6,12 @@ export type Product = {
   category: string
   categoryId: number
   description: string
+  isActive: boolean
 }
 
 export type CreateProduct = Pick<Product, 'name' | 'price'> & {
   categoryId: number
   image?: string
   description?: string
+  isActive?: boolean
 }

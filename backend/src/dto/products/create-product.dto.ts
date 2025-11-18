@@ -4,4 +4,5 @@ export interface CreateProductDto {
   price: number
   image?: string | null
   description?: string | null
+  isActive?: boolean
 }

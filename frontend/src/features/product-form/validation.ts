@@ -6,4 +6,5 @@ export const formSchema = z.object({
   description: z.string(),
   categoryId: z.number('Категория не может быть пустой'),
   image: z.string().optional(),
+  isActive: z.boolean().optional(),
 })
