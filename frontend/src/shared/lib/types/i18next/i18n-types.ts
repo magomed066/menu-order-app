@@ -18,6 +18,8 @@ export interface CategoriesResources {
   noCategories: string
   showCategory: string
   categories: string
+  disabledFilter: string
+  enabledFilter: string
 }
 
 export interface CommonResources {
