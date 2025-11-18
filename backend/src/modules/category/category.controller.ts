@@ -74,10 +74,10 @@ class CategoryController {
           .json({ success: false, message: 'Invalid sortOrder' })
       }
       const category = await service.updateCategory(id, { sortOrder })
-      res.json({ success: true, data: category })
+      return res.json({ success: true, data: category })
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Not found'
-      res.status(404).json({ success: false, message })
+      return res.status(404).json({ success: false, message })
     }
   }
 }

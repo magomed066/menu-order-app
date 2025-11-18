@@ -15,7 +15,7 @@ export class CategoryRepository {
   async findAll(params?: { onlyActive?: boolean }): Promise<Category[]> {
     const where: WhereOptions = {}
     if (params?.onlyActive) {
-      ;(where as any).isActive = true
+      where.isActive = true
     }
 
     const options: FindOptions = {

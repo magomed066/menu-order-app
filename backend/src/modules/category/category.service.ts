@@ -27,18 +27,22 @@ export class CategoryService {
       name: created.name,
       description: created.description,
       isActive: created.isActive,
+      sortOrder: created.sortOrder,
       createdAt: created.createdAt,
       updatedAt: created.updatedAt,
     }
   }
 
-  async getCategories(params?: { onlyActive?: boolean }): Promise<CategoryDto[]> {
+  async getCategories(params?: {
+    onlyActive?: boolean
+  }): Promise<CategoryDto[]> {
     const items = await repo.findAll({ onlyActive: params?.onlyActive })
     return items.map((c) => ({
       id: c.id,
       name: c.name,
       description: c.description,
       isActive: c.isActive,
+      sortOrder: c.sortOrder,
       createdAt: c.createdAt,
       updatedAt: c.updatedAt,
     }))
@@ -52,6 +56,7 @@ export class CategoryService {
       name: category.name,
       description: category.description,
       isActive: category.isActive,
+      sortOrder: category.sortOrder,
       createdAt: category.createdAt,
       updatedAt: category.updatedAt,
     }
@@ -71,6 +76,7 @@ export class CategoryService {
       name: updated.name,
       description: updated.description,
       isActive: updated.isActive,
+      sortOrder: updated.sortOrder,
       createdAt: updated.createdAt,
       updatedAt: updated.updatedAt,
     }
