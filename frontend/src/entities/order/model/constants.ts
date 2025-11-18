@@ -1,3 +1,5 @@
+import type { PaymentMethod } from '@/shared/api/services'
+
 export const ORDER_STATUSES = {
   PENDING: 'pending',
   COOKING: 'cooking',
@@ -17,4 +19,15 @@ export const ORDER_STATUS_LABEL = {
 export const ordersQueryKeys = {
   all: (filters?: Record<string, unknown>) => ['orders', filters ?? {}],
   byId: (id: number) => ['orders', 'byId', id],
+}
+
+export const ORDER_PAYMENT_TYPE = {
+  CASH: 'cash',
+  ONLINE: 'online',
+  CARD_WAITER: 'card_waiter',
+}
+
+export const ORDER_TYPE = {
+  DINE_IN: 'dine_in',
+  DELIVERY: 'delivery',
 }

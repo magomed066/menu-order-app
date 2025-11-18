@@ -3,6 +3,7 @@ import type { AxiosResponse } from 'axios'
 import { apiService } from '../../base'
 import type {
   CreateDineInOrderPayload,
+  CreateDeliveryOrderPayload,
   Order,
   OrderStatus,
   OrderType,
@@ -13,6 +14,12 @@ export class OrdersService {
     data: CreateDineInOrderPayload
   ): Promise<AxiosResponse<{ success: boolean }>> {
     return apiService.post('/orders/create/dine-in', data)
+  }
+
+  static createDeliveryOrder(
+    data: CreateDeliveryOrderPayload
+  ): Promise<AxiosResponse<{ success: boolean }>> {
+    return apiService.post('/orders/create/delivery', data)
   }
 
   static getOrders(params: {

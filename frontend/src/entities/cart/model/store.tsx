@@ -1,97 +1,74 @@
-import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-import type { Product } from '@/shared/api/services'
+import type { CartItem, CartStore } from './types'
 
-type CartItem = {
-  id: number
-  name: string
-  price: number
-  image: string
-  quantity: number
-}
+const calculateTotal = (items: CartItem[]) =>
+  items.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
-type CartState = {
-  items: CartItem[]
-}
+export const useCart = create<CartStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      total: 0,
+      add: (product, qty = 1) => {
+        const { items } = get()
+        const existing = items.find((i) => i.id === product.id)
 
-type CartAction =
-  | { type: 'ADD'; payload: Omit<CartItem, 'quantity'>; qty?: number }
-  | { type: 'REMOVE'; payload: { id: number } }
-  | { type: 'SET_QTY'; payload: { id: number; quantity: number } }
-  | { type: 'CLEAR' }
-
-const initialState: CartState = { items: [] }
-
-function reducer(state: CartState, action: CartAction): CartState {
-  switch (action.type) {
-    case 'ADD': {
-      const existing = state.items.find((i) => i.id === action.payload.id)
-      if (existing) {
-        const newQty = (action.qty ?? 1) + existing.quantity
-        return {
-          items: state.items.map((i) => (i.id === existing.id ? { ...i, quantity: newQty } : i)),
+        let nextItems: CartItem[]
+        if (existing) {
+          nextItems = items.map((i) =>
+            i.id === existing.id ? { ...i, quantity: i.quantity + qty } : i
+          )
+        } else {
+          nextItems = [
+            ...items,
+            {
+              id: product.id,
+              name: product.name,
+              image: product.image,
+              price: Number(product.price),
+              quantity: qty,
+            },
+          ]
         }
-      }
-      return { items: [...state.items, { ...action.payload, quantity: action.qty ?? 1 }] }
+
+        set({
+          items: nextItems,
+          total: calculateTotal(nextItems),
+        })
+      },
+      remove: (id) => {
+        const nextItems = get().items.filter((i) => i.id !== id)
+        set({
+          items: nextItems,
+          total: calculateTotal(nextItems),
+        })
+      },
+      setQty: (id, quantity) => {
+        const safeQty = Math.max(1, quantity)
+        const nextItems = get().items.map((i) =>
+          i.id === id ? { ...i, quantity: safeQty } : i
+        )
+        set({
+          items: nextItems,
+          total: calculateTotal(nextItems),
+        })
+      },
+      clear: () => {
+        set({ items: [], total: 0 })
+      },
+    }),
+    {
+      name: 'cart',
+      partialize: (state) => ({
+        items: state.items,
+        total: state.total,
+      }),
     }
-    case 'REMOVE':
-      return { items: state.items.filter((i) => i.id !== action.payload.id) }
-    case 'SET_QTY':
-      return {
-        items: state.items.map((i) =>
-          i.id === action.payload.id ? { ...i, quantity: Math.max(1, action.payload.quantity) } : i,
-        ),
-      }
-    case 'CLEAR':
-      return { items: [] }
-    default:
-      return state
-  }
-}
+  )
+)
 
-type CartContextType = {
-  items: CartItem[]
-  total: number
-  add: (product: Product, qty?: number) => void
-  remove: (id: number) => void
-  setQty: (id: number, quantity: number) => void
-  clear: () => void
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined)
-
-export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState, (init) => {
-    const saved = localStorage.getItem('cart')
-    return saved ? (JSON.parse(saved) as CartState) : init
-  })
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state))
-  }, [state])
-
-  const api = useMemo<CartContextType>(() => {
-    return {
-      items: state.items,
-      total: state.items.reduce((acc, i) => acc + i.price * i.quantity, 0),
-      add: (p, qty) =>
-        dispatch({
-          type: 'ADD',
-          payload: { id: p.id, name: p.name, image: p.image, price: Number(p.price) },
-          qty,
-        }),
-      remove: (id) => dispatch({ type: 'REMOVE', payload: { id } }),
-      setQty: (id, quantity) => dispatch({ type: 'SET_QTY', payload: { id, quantity } }),
-      clear: () => dispatch({ type: 'CLEAR' }),
-    }
-  }, [state])
-
-  return <CartContext.Provider value={api}>{children}</CartContext.Provider>
-}
-
-export function useCart() {
-  const ctx = useContext(CartContext)
-  if (!ctx) throw new Error('useCart must be used within CartProvider')
-  return ctx
-}
-
+// Backwards compatibility for existing provider HOC
+export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
+  children

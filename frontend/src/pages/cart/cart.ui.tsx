@@ -1,148 +1,41 @@
-import { OrdersService } from '@/shared/api/services/orders'
-import { useState } from 'react'
+import { ArrowLeft, ShoppingCart } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-import { useCart } from '@/entities/cart/model/store'
+import CartListFeature from '@/features/cart-list'
+import CheckoutOrderFeature from '@/features/checkout-order'
 
+import { ROUTES } from '@/shared/lib/config'
 import { useAppTranslation } from '@/shared/lib/hooks'
-import { notify } from '@/shared/lib/toast'
-import { priceFormatter } from '@/shared/lib/utils'
-
-import { Button, Card, CardContent, Input, SelectBox } from '@/shared/ui'
 
 function CartPage() {
   const { t } = useAppTranslation()
-  const { items, setQty, remove, total, clear } = useCart()
-  const [tableId, setTableId] = useState<number>(1)
-  const [guestCount, setGuestCount] = useState<number>(1)
-  const [paymentMethod, setPaymentMethod] = useState<
-    'online' | 'cash' | 'card_waiter'
-  >('cash')
-  const [loading, setLoading] = useState(false)
-
-  const placeOrder = async () => {
-    if (!items.length) return
-    try {
-      setLoading(true)
-      await OrdersService.createDineInOrder({
-        tableId,
-        guestCount,
-        paymentMethod,
-        items: items.map((i) => ({ productId: i.id, quantity: i.quantity })),
-      })
-      notify('success', t('pages:orderPlaced'))
-      clear()
-    } catch (e) {
-      notify('error', t('pages:orderPlaceError'))
-    } finally {
-      setLoading(false)
-    }
-  }
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-4">
-      <h1 className="text-xl font-semibold">{t('pages:cartTitle')}</h1>
-      <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
-        <Card>
-          <CardContent className="p-4">
-            {!items.length ? (
-              <div className="text-muted-foreground">
-                {t('pages:emptyCart')}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {items.map((i) => (
-                  <div key={i.id} className="flex items-center gap-4">
-                    <img
-                      src={i.image}
-                      className="h-16 w-16 rounded object-cover"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium">{i.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {priceFormatter.format(i.price)}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => setQty(i.id, i.quantity - 1)}
-                      >
-                        -
-                      </Button>
-                      <Input
-                        type="number"
-                        className="w-16 text-center"
-                        min={1}
-                        value={i.quantity}
-                        onChange={(e) => setQty(i.id, Number(e.target.value))}
-                      />
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => setQty(i.id, i.quantity + 1)}
-                      >
-                        +
-                      </Button>
-                    </div>
-                    <Button variant="destructive" onClick={() => remove(i.id)}>
-                      {t('pages:delete')}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="flex flex-col gap-4 p-4">
-            <div>
-              <div className="mb-2 text-sm text-muted-foreground">
-                {t('pages:table')}
-              </div>
-              <Input
-                type="number"
-                min={1}
-                value={tableId}
-                onChange={(e) => setTableId(Number(e.target.value))}
-              />
+    <div className="min-h-screen bg-[#faca9d] flex flex-col pt-4 sm:pt-6 lg:pt-10">
+      <div className="mx-auto w-full max-w-7xl bg-white rounded-md flex-1 pb-4 sm:pb-6 lg:pb-10 flex flex-col">
+        <div className="bg-white border-b border-[#e0e0e0] mb-7 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-t-md">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <Link
+              to={ROUTES.MAIN}
+              className="flex items-center gap-2 text-sm text-slate-900 hover:text-slate-600"
+            >
+              <ArrowLeft />
+              <span>Назад</span>
+            </Link>
+            <div className="flex items-center gap-2 sm:gap-3 sm:ml-auto text-lg sm:text-xl font-semibold">
+              <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
+              <span>{t('pages:cartTitle')}</span>
             </div>
-            <div>
-              <div className="mb-2 text-sm text-muted-foreground">
-                {t('pages:guestCount')}
-              </div>
-              <Input
-                type="number"
-                min={1}
-                value={guestCount}
-                onChange={(e) => setGuestCount(Number(e.target.value))}
-              />
-            </div>
-            <div>
-              <div className="mb-2 text-sm text-muted-foreground">
-                {t('pages:payment')}
-              </div>
-              <SelectBox
-                options={[
-                  { label: t('pages:payment_online'), value: 'online' },
-                  { label: t('pages:payment_cash'), value: 'cash' },
-                  {
-                    label: t('pages:payment_card_waiter'),
-                    value: 'card_waiter',
-                  },
-                ]}
-                value={paymentMethod}
-                onValueChange={(v) => setPaymentMethod(v as any)}
-              />
-            </div>
-            <div className="mt-2 text-lg font-semibold">
-              {t('pages:total')} {priceFormatter.format(total)}
-            </div>
-            <Button disabled={!items.length || loading} onClick={placeOrder}>
-              {t('pages:placeOrder')}
-            </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+
+        <div className="px-4 sm:px-6 lg:px-8 flex flex-col gap-5 sm:gap-7 pb-4">
+          <div className="grid gap-6 md:grid-cols-[1.6fr_1fr]">
+            <CartListFeature />
+
+            <CheckoutOrderFeature />
+          </div>
+        </div>
       </div>
     </div>
   )

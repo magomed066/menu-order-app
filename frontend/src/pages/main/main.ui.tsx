@@ -1,21 +1,17 @@
+import ShopCategoriesListWidget from '@/widgets/shop-categories-list'
+import ShopHeader from '@/widgets/shop-header'
 import ShopProductsListWidget from '@/widgets/shop-products-list'
 
-import { ROUTES } from '@/shared/lib/config'
-import { useAppTranslation } from '@/shared/lib/hooks'
-
-import { Button } from '@/shared/ui'
-
 function MainPage() {
-  const { t } = useAppTranslation()
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">{t('pages:menuTitle')}</h1>
-        <a href={ROUTES.CART}>
-          <Button>{t('pages:cart')}</Button>
-        </a>
+    <div className="min-h-screen bg-[#faca9d] flex flex-col md:pt-4 sm:pt-6 lg:pt-10">
+      <div className="mx-auto w-full max-w-7xl bg-white rounded-md flex-1 pb-4 sm:pb-6 lg:pb-10 flex flex-col">
+        <ShopHeader />
+        <div className="px-4 sm:px-6 lg:px-8 flex flex-col gap-7">
+          <ShopCategoriesListWidget />
+          <ShopProductsListWidget />
+        </div>
       </div>
-      <ShopProductsListWidget />
     </div>
   )
 }
