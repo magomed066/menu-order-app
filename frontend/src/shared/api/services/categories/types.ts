@@ -11,4 +11,4 @@ export type CreateCategory = {
   isActive?: boolean
 }
 
-export type UpdateCategory = CreateCategory
+export type UpdateCategory = Partial<CreateCategory> & { sortOrder?: number }

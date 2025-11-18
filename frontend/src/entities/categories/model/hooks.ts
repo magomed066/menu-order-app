@@ -31,7 +31,7 @@ export function useGetPublicCategories() {
 
 export function useCreateCategoryMutation(
   onSuccess?: () => void,
-  onError?: (err: RequestErrors['errors']) => void,
+  onError?: (err: RequestErrors['errors']) => void
 ) {
   const queryClient = useQueryClient()
   return useMutation({
@@ -52,12 +52,14 @@ export function useCreateCategoryMutation(
 
 export function useUpdateCategoryMutation(
   onSuccess?: () => void,
-  onError?: (err: RequestErrors['errors']) => void,
+  onError?: (err: RequestErrors['errors']) => void
 ) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (payload: { id: number; data: Parameters<typeof CategoriesService.updateCategory>[1] }) =>
-      CategoriesService.updateCategory(payload.id, payload.data),
+    mutationFn: (payload: {
+      id: number
+      data: Parameters<typeof CategoriesService.updateCategory>[1]
+    }) => CategoriesService.updateCategory(payload.id, payload.data),
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({
         queryKey: categoriesQueryKeys.all(),
@@ -77,11 +79,35 @@ export function useUpdateCategoryMutation(
 
 export function useDeleteCategoryMutation(
   onSuccess?: () => void,
-  onError?: (err: RequestErrors['errors']) => void,
+  onError?: (err: RequestErrors['errors']) => void
 ) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => CategoriesService.deleteCategory(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: categoriesQueryKeys.all(),
+      })
+      onSuccess?.()
+    },
+    onError: (err: AxiosError<RequestErrors>) => {
+      if (err.response?.data.errors) {
+        onError?.(err.response.data.errors)
+      }
+    },
+  })
+}
+
+export function useUpdateCategorySortOrderMutation(
+  onSuccess?: () => void,
+  onError?: (err: RequestErrors['errors']) => void
+) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (payload: { id: number; sortOrder: number }) =>
+      CategoriesService.updateCategory(payload.id, {
+        sortOrder: payload.sortOrder,
+      }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: categoriesQueryKeys.all(),

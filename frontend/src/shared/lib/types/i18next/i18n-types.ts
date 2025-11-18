@@ -58,6 +58,7 @@ export interface PagesResources {
   editCategoryDialogTitle: string
   orderPlaced: string
   productSaved: string
+  categoriesOrderUpdated: string
   categorySaved: string
   orderPlaceError: string
   emptyCart: string

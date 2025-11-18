@@ -23,6 +23,7 @@
   "editCategoryDialogTitle": "Редактировать категорию",
   "orderPlaced": "Заказ оформлен",
   "productSaved": "Продукт успешно сохранен",
+  "categoriesOrderUpdated": "Порядок категорий обновлён",
   "categorySaved": "Категория успешно сохранена",
   "orderPlaceError": "Не удалось оформить заказ",
   "emptyCart": "Корзина пуста",

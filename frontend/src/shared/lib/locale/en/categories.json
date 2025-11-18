@@ -1,7 +1,9 @@
 {
-  "disabled": "Disabled",
-  "enabled": "Enabled",
-  "noCategories": "The are no categories",
+  "disabled": "Inactive",
+  "enabled": "Active",
+  "noCategories": "There are no categories",
   "showCategory": "Show category",
-  "categories": "Categories"
+  "categories": "Categories",
+  "disabledFilter": "Inactive",
+  "enabledFilter": "Active"
 }
