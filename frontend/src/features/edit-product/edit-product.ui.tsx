@@ -59,8 +59,6 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
     },
   })
 
-  const [initialized, setInitialized] = useState(false)
-
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     if (!onSubmit) return
 
@@ -87,29 +85,24 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
   }
 
   useEffect(() => {
-    if (product && categories?.length && !initialized) {
-      form.reset({
+    if (product) {
+      const formValues = {
         name: product.name,
         price: product.price,
         categoryId: product.categoryId,
         image: product.image ?? '',
         description: product.description ?? '',
         isActive: product.isActive,
-      })
-      setInitialized(true)
+      }
+
+      form.reset(formValues)
+
+      // Дополнительно устанавливаем значение категории
+      if (product.categoryId) {
+        form.setValue('categoryId', product.categoryId)
+      }
     }
-  }, [product, categories, form, initialized])
-
-  useEffect(() => {
-    // сбрасываем инициализацию при смене продукта
-    setInitialized(false)
-  }, [productId])
-
-  // useEffect(() => {
-  //   if (product && categories.length) {
-  //     form.setValue('categoryId', product.categoryId)
-  //   }
-  // }, [product, categories, form])
+  }, [product, categories, form])
 
   const [files, setFiles] = useState<File[]>([])
 
@@ -129,7 +122,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
     return null
   }
 
-  if (isFetching || isFetchingCategories || !initialized) {
+  if (isFetching || isFetchingCategories) {
     return (
       <div className="flex flex-col items-center justify-center flex-1">
         <Spinner scale={10} />
@@ -201,7 +194,21 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
               </Field>
             )}
           />
+
           <RHFSelectBox
+            name="categoryId"
+            control={form.control}
+            label={t('category')}
+            placeholder={t('category')}
+            options={categories.map((c) => ({
+              value: String(c.id), // значение как строка
+              label: c.name,
+            }))}
+            disabled={isCashier}
+            parseValue={(v) => Number(v)} // преобразуем строку в число
+            formatValue={(v) => String(v ?? '')} // преобразуем число в строку
+          />
+          {/* <RHFSelectBox
             name="categoryId"
             control={form.control}
             label={t('category')}
@@ -215,7 +222,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
             formatValue={(v) =>
               v === undefined || v === null ? undefined : String(v as number)
             }
-          />
+          /> */}
           <Controller
             name="isActive"
             control={form.control}
@@ -234,17 +241,6 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
               </Field>
             )}
           />
-          {/* <RHFSelectBox
-            name="categoryId"
-            control={form.control}
-            label={t('category')}
-            placeholder={t('category')}
-            options={categoryOptions}
-            parseValue={(v) => Number(v)}
-            formatValue={(v) =>
-              v === undefined || v === null ? undefined : String(v as number)
-            }
-          /> */}
 
           {!form.watch('image') && !isCashier && (
             <Dropzone onDrop={handleDrop} multiple={false} src={files}>

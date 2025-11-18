@@ -1,6 +1,10 @@
 import { CircleUser, EllipsisVertical, LogOutIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
+import { useUserStore } from '@/entities/auth'
+
+import { ROUTES } from '@/shared/lib/config'
+
 import {
   Avatar,
   AvatarFallback,
@@ -17,9 +21,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/shared/ui'
-
-import { useUserStore } from '@/entities/auth'
-import { ROUTES } from '@/shared/lib/config'
 
 import type { Props } from './types'
 
@@ -81,13 +82,13 @@ function NavUser(props: Props) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <CircleUser />
-                Account
+                Профиль
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={handleLogout}>
               <LogOutIcon />
-              Log out
+              Выйти
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
