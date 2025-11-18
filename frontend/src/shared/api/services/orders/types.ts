@@ -6,6 +6,8 @@ export type OrderStatus =
   | 'cancelled'
 export type OrderType = 'dine_in' | 'delivery'
 
+export type PaymentMethod = 'online' | 'cash' | 'card_waiter'
+
 export type OrderItem = {
   id: number
   productId: number
@@ -18,7 +20,7 @@ export type OrderItem = {
 export type OrderDineInDetails = {
   tableId: number
   guestCount: number
-  paymentMethod: 'online' | 'cash' | 'card_waiter'
+  paymentMethod: PaymentMethod
 }
 
 export type OrderDeliveryDetails = {
@@ -52,6 +54,23 @@ export type CreateDineInOrderItem = {
 export type CreateDineInOrderPayload = {
   tableId: number
   guestCount: number
-  paymentMethod: 'online' | 'cash' | 'card_waiter'
+  paymentMethod: PaymentMethod
   items: CreateDineInOrderItem[]
+}
+
+export type CreateDeliveryOrderItem = {
+  productId: number
+  quantity: number
+  specialInstructions?: string
+}
+
+export type CreateDeliveryOrderPayload = {
+  addressId: number
+  customerName: string
+  customerPhone: string
+  deliveryTime?: string
+  deliveryAddress: string
+  deliveryFee?: number
+  paymentMethod: 'online' | 'cash_on_delivery'
+  items: CreateDeliveryOrderItem[]
 }

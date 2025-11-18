@@ -30,6 +30,7 @@ export const useCreateProductMutation = (
     },
   })
 }
+
 export const useGetProducts = (params: QueryParams) => {
   const { page = 1, search = '', ...restParams } = params
   const { data, isFetching, isError } = useQuery({

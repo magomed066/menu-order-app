@@ -5,17 +5,17 @@ import {
   useGetProducts,
 } from '@/entities/products'
 
+import AddToCartFeature from '@/features/add-to-cart'
+
 import { useAppTranslation } from '@/shared/lib/hooks'
 import { useQueryParams } from '@/shared/lib/utils'
-
-import { Button } from '@/shared/ui'
 
 function ShopProductsListWidget() {
   const { t } = useAppTranslation()
   const { getQueryParam } = useQueryParams()
   const searchQuery = getQueryParam('search')
   const categoryId = getQueryParam('categoryId')
-  const { add } = useCart()
+  const { items } = useCart()
 
   const { isFetching, products } = useGetProducts({
     search: searchQuery,
@@ -42,16 +42,18 @@ function ShopProductsListWidget() {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {products.map((item) => (
-        <div key={item.id} className="flex flex-col gap-2">
-          <ProductCard
-            data={{ ...item, description: item.description ?? '' }}
-          />
-          <Button onClick={() => add(item)} variant="default">
-            {t('pages:addToCart')}
-          </Button>
-        </div>
-      ))}
+      {products.map((item) => {
+        const inCart = items.some((cartItem) => cartItem.id === item.id)
+
+        return (
+          <div key={item.id} className="flex flex-col gap-2">
+            <ProductCard
+              data={{ ...item, description: item.description ?? '' }}
+            />
+            <AddToCartFeature data={item} inCart={inCart} />
+          </div>
+        )
+      })}
     </div>
   )
 }

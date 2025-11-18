@@ -36,9 +36,9 @@ function ButtonLoading(
       loading?: boolean
     }
 ) {
-  const { loading = false, children } = props
+  const { loading = false, children, disabled } = props
   return (
-    <Button {...props} disabled={loading}>
+    <Button {...props} disabled={disabled || loading}>
       {loading && <Spinner />}
       {children}
     </Button>

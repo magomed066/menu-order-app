@@ -48,6 +48,13 @@ export interface PagesResources {
   emptyCart: string
   table: string
   guestCount: string
+  orderType: string
+  orderType_dine_in: string
+  orderType_delivery: string
+  customerName: string
+  customerPhone: string
+  deliveryAddress: string
+  addressId: string
   payment: string
   payment_online: string
   payment_cash: string

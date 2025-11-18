@@ -2,12 +2,16 @@ import { ShoppingCart } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 import ShopProductsSearchFeature from '@/features/shop-products-search'
+import { useCart } from '@/entities/cart/model/store'
 
 import { ROUTES } from '@/shared/lib/config'
 
 import { Button } from '@/shared/ui'
 
 function ShopHeader() {
+  const { items } = useCart()
+  const count = items.reduce((acc, item) => acc + item.quantity, 0)
+
   return (
     <div className="bg-white border-b border-[#e0e0e0] mb-7 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-t-md">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -33,7 +37,7 @@ function ShopHeader() {
         <div className="sm:ml-auto">
           <Link to={ROUTES.CART}>
             <Button className="w-full sm:w-auto justify-center gap-2">
-              <span>Корзина</span> | <ShoppingCart /> 3
+              <span>Корзина</span> | <ShoppingCart /> {count}
             </Button>
           </Link>
         </div>
