@@ -15,6 +15,7 @@
   "searchMenuPlaceholder": "Поиск по меню",
   "addProduct": "Добавить продукт",
   "addProductDialogTitle": "Добавить продукт",
+  "editProductDialogTitle": "Редактировать продукт",
   "orderPlaced": "Заказ оформлен",
   "productSaved": "Продукт успешно сохранен",
   "orderPlaceError": "Не удалось оформить заказ",

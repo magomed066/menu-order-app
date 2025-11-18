@@ -42,6 +42,7 @@ export interface PagesResources {
   searchMenuPlaceholder: string
   addProduct: string
   addProductDialogTitle: string
+  editProductDialogTitle: string
   orderPlaced: string
   productSaved: string
   orderPlaceError: string
@@ -90,6 +91,7 @@ export interface ProductsResources {
   price: string
   image: string
   description: string
+  isActive: string
 }
 
 // Merge all resources

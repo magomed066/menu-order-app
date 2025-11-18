@@ -7,4 +7,5 @@ export type Props = {
     category: string
     description: string
   }
+  onClick?: (id: number) => void
 }

@@ -1,15 +1,19 @@
-import { priceFormatter } from '@/shared/lib/utils'
+import { cn, priceFormatter } from '@/shared/lib/utils'
 
 import { Badge, Card, CardContent } from '@/shared/ui'
 
 import type { Props } from './types'
 
 function ProductCard(props: Props) {
-  const { data } = props
+  const { data, onClick } = props
   return (
     <Card
       key={data.id}
-      className="group overflow-hidden rounded-2xl border p-0 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+      onClick={() => onClick?.(data.id)}
+      className={cn(
+        'group overflow-hidden rounded-2xl border p-0 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5',
+        onClick && 'cursor-pointer'
+      )}
     >
       <div className="relative">
         <img

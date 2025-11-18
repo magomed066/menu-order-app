@@ -22,6 +22,7 @@ export class ProductService {
     category: p.category?.name ?? '',
     categoryId: p.categoryId,
     description: p.description ?? '',
+    isActive: p.isActive,
   })
 
   async createProduct(payload: CreateProductDto): Promise<ProductDto> {
@@ -39,6 +40,7 @@ export class ProductService {
     name?: string
     description?: string
     categoryId?: number
+    onlyActive?: boolean
   }): Promise<ProductDto[]> {
     const page = params?.page && params.page > 0 ? params.page : 1
     const limit = params?.limit && params.limit > 0 ? params.limit : undefined
@@ -50,6 +52,7 @@ export class ProductService {
       categoryId: params?.categoryId,
       limit,
       offset,
+      onlyActive: params?.onlyActive,
     })
     return items.map((p) => this.toDto(p))
   }

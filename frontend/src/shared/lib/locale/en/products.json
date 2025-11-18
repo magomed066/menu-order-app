@@ -3,5 +3,6 @@
   "category": "Category",
   "price": "Price",
   "image": "Image",
-  "description": "Description"
+  "description": "Description",
+  "isActive": "Visible"
 }

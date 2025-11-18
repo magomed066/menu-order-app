@@ -20,6 +20,7 @@ export class ProductRepository {
     categoryId?: number
     limit?: number
     offset?: number
+    onlyActive?: boolean
   }): Promise<Product[]> {
     const where: WhereOptions = {}
     if (params?.name) {
@@ -30,6 +31,9 @@ export class ProductRepository {
     }
     if (params?.categoryId) {
       where.categoryId = params.categoryId
+    }
+    if (params?.onlyActive) {
+      ;(where as any).isActive = true
     }
 
     const options: FindOptions = {

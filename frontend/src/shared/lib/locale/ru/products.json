@@ -3,5 +3,6 @@
   "category": "Категория",
   "price": "Цена",
   "image": "Изображение",
-  "description": "Описание"
+  "description": "Описание",
+  "isActive": "Показывать товар"
 }

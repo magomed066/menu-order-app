@@ -21,6 +21,7 @@ export const createProductValidator = [
   body('price').isFloat({ gt: 0 }).withMessage('price должен быть больше 0'),
   body('image').optional({ nullable: true }).isString(),
   body('description').optional({ nullable: true }).isString(),
+  body('isActive').optional().isBoolean(),
   validate,
 ]
 
@@ -31,6 +32,7 @@ export const updateProductValidator = [
   body('price').optional().isFloat({ gt: 0 }),
   body('image').optional({ nullable: true }).isString(),
   body('description').optional({ nullable: true }).isString(),
+  body('isActive').optional().isBoolean(),
   validate,
 ]
 

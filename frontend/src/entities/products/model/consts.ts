@@ -1,5 +1,6 @@
 export const PRODUCT_FORMS = {
   CREATE: 'create_product_form',
+  EDIT: 'edit_product_form',
 }
 
 export const productsQueryKeys = {
@@ -10,4 +11,5 @@ export const productsQueryKeys = {
       ? [...key, ...Object.entries(filters).flatMap(([k, v]) => [k, v])]
       : key
   },
+  byId: (id: number) => ['product', id],
 }

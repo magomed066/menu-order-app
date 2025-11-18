@@ -6,6 +6,7 @@ export type QueryParams = {
   search?: string
   categoryId?: string
   orderId?: string
+  productId?: string
 }
 
 export const useQueryParams = () => {

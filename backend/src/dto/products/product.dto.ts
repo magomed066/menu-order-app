@@ -7,13 +7,14 @@ export interface ProductAttributes {
   price: number
   image: string | null
   description: string | null
+  isActive: boolean
   createdAt?: Date
   updatedAt?: Date
 }
 
 export type ProductCreationAttributes = Optional<
   ProductAttributes,
-  'id' | 'image' | 'createdAt' | 'updatedAt'
+  'id' | 'image' | 'createdAt' | 'updatedAt' | 'isActive'
 >
 
 // Response DTO including category name and stringified price
@@ -25,4 +26,5 @@ export type ProductDto = {
   category: string
   categoryId: number
   description: string
+  isActive: boolean
 }

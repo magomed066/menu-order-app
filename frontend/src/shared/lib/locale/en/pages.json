@@ -15,6 +15,7 @@
   "searchMenuPlaceholder": "Search menu",
   "addProduct": "Add product",
   "addProductDialogTitle": "Add product",
+  "editProductDialogTitle": "Edit product",
   "orderPlaced": "Order placed",
   "productSaved": "Product saved",
   "orderPlaceError": "Failed to place order",
