@@ -5,6 +5,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 
+import { useGetCategories } from '@/entities/categories'
+
 import { getBase64 } from '@/shared/lib/utils'
 
 import {
@@ -30,6 +32,8 @@ type ProductFormFeatureProps = {
 function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
   const { t } = useTranslation(['products'])
 
+  const { categories } = useGetCategories()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,15 +46,10 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
     },
   })
 
-  const categoryOptions = [
-    { value: '1', label: 'Pizza' },
-    { value: '2', label: 'Taco' },
-    { value: '3', label: 'Sandwich' },
-    { value: '4', label: 'Kebab' },
-    { value: '5', label: 'Popcorn' },
-    { value: '6', label: 'Burger' },
-    { value: '7', label: 'Burrito' },
-  ]
+  const categoryOptions = categories.map((c) => ({
+    value: String(c.id),
+    label: c.name,
+  }))
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     if (onSubmit) {

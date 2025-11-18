@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 
+import { useGetCategories } from '@/entities/categories'
 import { useGetProduct } from '@/entities/products'
 
 import { getBase64, useQueryParams } from '@/shared/lib/utils'
@@ -19,6 +20,7 @@ import {
   FieldGroup,
   FieldLabel,
   Input,
+  RHFSelectBox,
 } from '@/shared/ui'
 import { Spinner } from '@/shared/ui/spinner'
 
@@ -31,6 +33,8 @@ type ProductFormFeatureProps = {
 
 function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
   const { t } = useTranslation(['products'])
+
+  const { categories } = useGetCategories()
 
   const { getQueryParam } = useQueryParams()
   const productIdParam = getQueryParam('productId')
@@ -155,6 +159,20 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
                 )}
               </Field>
             )}
+          />
+          <RHFSelectBox
+            name="categoryId"
+            control={form.control}
+            label={t('category')}
+            placeholder={t('category')}
+            options={categories.map((c) => ({
+              value: String(c.id),
+              label: c.name,
+            }))}
+            parseValue={(v) => Number(v)}
+            formatValue={(v) =>
+              v === undefined || v === null ? undefined : String(v as number)
+            }
           />
           <Controller
             name="isActive"
