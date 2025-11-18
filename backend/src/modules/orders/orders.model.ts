@@ -177,7 +177,7 @@ export class OrderDelivery extends Model {
   declare id: number
   declare orderId: number
   declare userId: number | null
-  declare addressId: number
+  declare addressId: number | null
   declare customerName: string
   declare customerPhone: string
   declare deliveryTime: Date | null
@@ -209,7 +209,7 @@ OrderDelivery.init(
     },
     addressId: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
+      allowNull: true,
       references: { model: 'addresses', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',

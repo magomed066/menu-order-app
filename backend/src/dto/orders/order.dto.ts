@@ -55,7 +55,7 @@ export type OrderDineInDetails = {
 
 export type OrderDeliveryDetails = {
   userId: number | null
-  addressId: number
+  addressId: number | null
   customerName: string
   customerPhone: string
   deliveryTime: Date | null

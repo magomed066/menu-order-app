@@ -2,6 +2,7 @@ import { Op } from 'sequelize'
 
 import type {
   CreateOrderDeliveryDto,
+  CreateOrderDeliveryPublicDto,
   CreateOrderDineInDto,
 } from '@dto/orders/create-order.dto'
 import type {
@@ -121,6 +122,30 @@ export class OrdersService {
         data: {
           userId: userId ?? null,
           addressId: payload.addressId,
+          customerName: payload.customerName,
+          customerPhone: payload.customerPhone,
+          deliveryTime: payload.deliveryTime
+            ? new Date(payload.deliveryTime)
+            : null,
+          deliveryAddress: payload.deliveryAddress,
+          deliveryFee: payload.deliveryFee ?? 0,
+          paymentMethod: payload.paymentMethod,
+        },
+      },
+    )
+    return this.toDto(created)
+  }
+
+  async createDeliveryPublicOrder(
+    payload: CreateOrderDeliveryPublicDto,
+  ): Promise<OrderDto> {
+    const items = await this.materializeItems(payload.items)
+    const created = await repo.create(
+      { orderType: 'delivery', status: 'pending' },
+      items,
+      {
+        type: 'delivery',
+        data: {
           customerName: payload.customerName,
           customerPhone: payload.customerPhone,
           deliveryTime: payload.deliveryTime

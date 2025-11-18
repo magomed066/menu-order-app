@@ -25,7 +25,7 @@ export type OrderDineInDetails = {
 
 export type OrderDeliveryDetails = {
   userId: number | null
-  addressId: number
+  addressId: number | null
   customerName: string
   customerPhone: string
   deliveryTime: string | null
@@ -65,7 +65,6 @@ export type CreateDeliveryOrderItem = {
 }
 
 export type CreateDeliveryOrderPayload = {
-  addressId: number
   customerName: string
   customerPhone: string
   deliveryTime?: string

@@ -14,7 +14,6 @@ function CheckoutOrderFeature() {
   const [formData, setFormData] = useState({
     tableId: 1,
     guestCount: 1,
-    addressId: 1,
   })
   const [orderType, setOrderType] = useState<'dine_in' | 'delivery'>('dine_in')
   const [customerName, setCustomerName] = useState('')
@@ -56,7 +55,6 @@ function CheckoutOrderFeature() {
 
     mutate({
       orderType: 'delivery',
-      addressId: formData.addressId,
       customerName,
       customerPhone,
       deliveryTime: undefined,
@@ -169,10 +167,7 @@ function CheckoutOrderFeature() {
             (orderType === 'dine_in' &&
               (!formData.tableId || !formData.guestCount)) ||
             (orderType === 'delivery' &&
-              (!customerName ||
-                !customerPhone ||
-                !deliveryAddress ||
-                !formData.addressId))
+              (!customerName || !customerPhone || !deliveryAddress))
           }
           onClick={placeOrder}
         >

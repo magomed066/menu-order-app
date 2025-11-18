@@ -36,8 +36,8 @@ export class OrdersRepository {
       | {
           type: 'delivery'
           data: {
-            userId: number | null
-            addressId: number
+            userId?: number | null
+            addressId?: number
             customerName: string
             customerPhone: string
             deliveryTime: Date | null

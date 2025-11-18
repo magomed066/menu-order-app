@@ -3,6 +3,7 @@ import { Router } from 'express'
 import { adminOnly, authMiddleware, requireAnyRole } from '@middleware/auth'
 import {
   createDeliveryOrderValidator,
+  createDeliveryPublicOrderValidator,
   createDineInOrderValidator,
   deleteOrderValidator,
   getOrderByIdValidator,
@@ -43,6 +44,13 @@ router.post(
   authMiddleware,
   createDeliveryOrderValidator,
   controller.createDelivery,
+)
+
+// Public endpoint: delivery order without registration
+router.post(
+  '/create/delivery-public',
+  createDeliveryPublicOrderValidator,
+  controller.createDeliveryPublic,
 )
 
 router.put(

@@ -2,6 +2,7 @@ import { type Request, type Response } from 'express'
 
 import type {
   CreateOrderDeliveryDto,
+  CreateOrderDeliveryPublicDto,
   CreateOrderDineInDto,
 } from '@dto/orders/create-order.dto'
 import type { UpdateOrderDto } from '@dto/orders/update-order.dto'
@@ -31,6 +32,17 @@ class OrdersController {
       }
       const payload: CreateOrderDeliveryDto = req.body
       const order = await service.createDeliveryOrder(req.userId, payload)
+      res.status(201).json({ success: true, data: order })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Bad request'
+      res.status(400).json({ success: false, message })
+    }
+  }
+
+  createDeliveryPublic = async (req: Request, res: Response) => {
+    try {
+      const payload: CreateOrderDeliveryPublicDto = req.body
+      const order = await service.createDeliveryPublicOrder(payload)
       res.status(201).json({ success: true, data: order })
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Bad request'
