@@ -16,24 +16,33 @@ export class CategoryService {
     ) {
       throw new Error('Category with this name already exists')
     }
-    const created = await repo.create(payload as CategoryCreationAttributes)
+    const maxSort = await repo.getMaxSortOrder()
+    const created = await repo.create({
+      ...(payload as CategoryCreationAttributes),
+      // If sortOrder explicitly provided, respect it; otherwise increment last
+      sortOrder: payload.sortOrder ?? maxSort + 1,
+    })
     return {
       id: created.id,
       name: created.name,
       description: created.description,
       isActive: created.isActive,
+      sortOrder: created.sortOrder,
       createdAt: created.createdAt,
       updatedAt: created.updatedAt,
     }
   }
 
-  async getCategories(): Promise<CategoryDto[]> {
-    const items = await repo.findAll()
+  async getCategories(params?: {
+    onlyActive?: boolean
+  }): Promise<CategoryDto[]> {
+    const items = await repo.findAll({ onlyActive: params?.onlyActive })
     return items.map((c) => ({
       id: c.id,
       name: c.name,
       description: c.description,
       isActive: c.isActive,
+      sortOrder: c.sortOrder,
       createdAt: c.createdAt,
       updatedAt: c.updatedAt,
     }))
@@ -47,6 +56,7 @@ export class CategoryService {
       name: category.name,
       description: category.description,
       isActive: category.isActive,
+      sortOrder: category.sortOrder,
       createdAt: category.createdAt,
       updatedAt: category.updatedAt,
     }
@@ -66,6 +76,7 @@ export class CategoryService {
       name: updated.name,
       description: updated.description,
       isActive: updated.isActive,
+      sortOrder: updated.sortOrder,
       createdAt: updated.createdAt,
       updatedAt: updated.updatedAt,
     }

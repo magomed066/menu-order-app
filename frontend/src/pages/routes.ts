@@ -4,6 +4,7 @@ import MainPage from '@/pages/main'
 import CartPage from '@/pages/cart'
 import OrdersPage from '@/pages/orders'
 import ProductsPage from '@/pages/products'
+import CategoriesPage from '@/pages/categories'
 
 import { ROUTES } from '@/shared/lib/config'
 
@@ -30,6 +31,10 @@ export const privateRoutes = [
   {
     Component: ProductsPage,
     path: ROUTES.PRODUCTS,
+  },
+  {
+    Component: CategoriesPage,
+    path: ROUTES.CATEGORIES,
   },
   {
     Component: OrdersPage,

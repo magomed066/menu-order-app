@@ -1,8 +1,9 @@
 import authEn from '@/shared/lib/locale/en/auth.json'
+import categoriesEn from '@/shared/lib/locale/en/categories.json'
 import commonEn from '@/shared/lib/locale/en/common.json'
 import menuEn from '@/shared/lib/locale/en/menu.json'
-import productsEn from '@/shared/lib/locale/en/products.json'
 import pagesEn from '@/shared/lib/locale/en/pages.json'
+import productsEn from '@/shared/lib/locale/en/products.json'
 
 export const translationEn = {
   common: commonEn,
@@ -10,4 +11,5 @@ export const translationEn = {
   menu: menuEn,
   products: productsEn,
   pages: pagesEn,
+  categories: categoriesEn,
 }

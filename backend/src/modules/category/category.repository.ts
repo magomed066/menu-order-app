@@ -1,3 +1,5 @@
+import { type FindOptions, type WhereOptions } from 'sequelize'
+
 import type {
   CategoryAttributes,
   CategoryCreationAttributes,
@@ -10,8 +12,21 @@ export class CategoryRepository {
     return await Category.create(payload)
   }
 
-  async findAll(): Promise<Category[]> {
-    return await Category.findAll({ order: [['id', 'ASC']] })
+  async findAll(params?: { onlyActive?: boolean }): Promise<Category[]> {
+    const where: WhereOptions = {}
+    if (params?.onlyActive) {
+      where.isActive = true
+    }
+
+    const options: FindOptions = {
+      where,
+      order: [
+        ['sortOrder', 'ASC'],
+        ['id', 'ASC'],
+      ],
+    }
+
+    return await Category.findAll(options)
   }
 
   async findById(id: number): Promise<Category | null> {
@@ -26,6 +41,13 @@ export class CategoryRepository {
     if (!category) return null
     await category.update(payload)
     return category
+  }
+
+  async getMaxSortOrder(): Promise<number> {
+    const last = await Category.findOne({
+      order: [['sortOrder', 'DESC']],
+    })
+    return last?.sortOrder ?? 0
   }
 
   async remove(id: number): Promise<boolean> {

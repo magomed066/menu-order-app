@@ -5,6 +5,7 @@ export interface CategoryAttributes {
   name: string
   description?: string | null
   isActive: boolean
+  sortOrder: number
   createdAt?: Date
   updatedAt?: Date
 }
@@ -14,5 +15,5 @@ export type CategoryDto = CategoryAttributes &
 
 export type CategoryCreationAttributes = Optional<
   CategoryAttributes,
-  'id' | 'description' | 'isActive' | 'createdAt' | 'updatedAt'
+  'id' | 'description' | 'isActive' | 'sortOrder' | 'createdAt' | 'updatedAt'
 >

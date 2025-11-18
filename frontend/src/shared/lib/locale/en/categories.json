@@ -1,0 +1,9 @@
+{
+  "disabled": "Inactive",
+  "enabled": "Active",
+  "noCategories": "There are no categories",
+  "showCategory": "Show category",
+  "categories": "Categories",
+  "disabledFilter": "Inactive",
+  "enabledFilter": "Active"
+}

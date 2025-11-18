@@ -15,6 +15,7 @@ export class Category
   public name!: string
   public description!: string | null
   public isActive!: boolean
+  public sortOrder!: number
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -43,6 +44,11 @@ Category.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+    },
+    sortOrder: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {

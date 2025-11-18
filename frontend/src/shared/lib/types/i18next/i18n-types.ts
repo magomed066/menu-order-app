@@ -12,6 +12,16 @@ export interface AuthResources {
   loginError: string
 }
 
+export interface CategoriesResources {
+  disabled: string
+  enabled: string
+  noCategories: string
+  showCategory: string
+  categories: string
+  disabledFilter: string
+  enabledFilter: string
+}
+
 export interface CommonResources {
   save: string
   cancel: string
@@ -31,6 +41,7 @@ export interface PagesResources {
   admin: string
   dashboard: string
   products: string
+  categories: string
   orders: string
   analytics: string
   menuTitle: string
@@ -40,11 +51,17 @@ export interface PagesResources {
   addProductHint: string
   selectOrder: string
   searchMenuPlaceholder: string
+  noCategories: string
   addProduct: string
   addProductDialogTitle: string
   editProductDialogTitle: string
+  addCategory: string
+  addCategoryDialogTitle: string
+  editCategoryDialogTitle: string
   orderPlaced: string
   productSaved: string
+  categoriesOrderUpdated: string
+  categorySaved: string
   orderPlaceError: string
   emptyCart: string
   table: string
@@ -97,6 +114,7 @@ export interface ProductsResources {
 // Merge all resources
 export interface Resources {
   auth: AuthResources
+  categories: CategoriesResources
   common: CommonResources
   menu: MenuResources
   pages: PagesResources

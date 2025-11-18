@@ -18,7 +18,14 @@ class CategoryController {
   }
 
   findAll = async (_: Request, res: Response) => {
-    const categories = await service.getCategories()
+    // Admin view: return all categories, including inactive
+    const categories = await service.getCategories({ onlyActive: false })
+    res.json({ success: true, data: categories })
+  }
+
+  // Public endpoint: only active categories
+  findPublic = async (_: Request, res: Response) => {
+    const categories = await service.getCategories({ onlyActive: true })
     res.json({ success: true, data: categories })
   }
 
@@ -53,6 +60,24 @@ class CategoryController {
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Not found'
       res.status(404).json({ success: false, message })
+    }
+  }
+
+  // Optional: dedicated endpoint to update sort order only
+  updateSortOrder = async (req: Request, res: Response) => {
+    try {
+      const id = Number(req.params.id)
+      const sortOrder = Number(req.body.sortOrder)
+      if (!Number.isFinite(sortOrder) || sortOrder <= 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: 'Invalid sortOrder' })
+      }
+      const category = await service.updateCategory(id, { sortOrder })
+      return res.json({ success: true, data: category })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Not found'
+      return res.status(404).json({ success: false, message })
     }
   }
 }

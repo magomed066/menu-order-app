@@ -1,6 +1,7 @@
 // import i18next from 'i18next'
 import {
   ChartNoAxesCombined,
+  Layers,
   List,
   type LucideProps,
   ScrollText,
@@ -43,6 +44,11 @@ export const MENU_LIST: Menu = {
       title: 'menu:menu',
       url: ROUTES.PRODUCTS,
       icon: List,
+    },
+    {
+      title: 'pages:categories',
+      url: ROUTES.CATEGORIES,
+      icon: Layers,
     },
     {
       title: 'pages:orders',
