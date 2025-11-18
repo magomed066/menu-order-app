@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 
+import { useUserStore } from '@/entities/auth'
 import { useGetCategories } from '@/entities/categories'
 import { useGetProduct } from '@/entities/products'
 
@@ -34,7 +35,11 @@ type ProductFormFeatureProps = {
 function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
   const { t } = useTranslation(['products'])
 
-  const { categories } = useGetCategories()
+  const { user } = useUserStore()
+  const role = user?.role
+  const isCashier = role === 'cashier'
+
+  const { categories, isFetching: isFetchingCategories } = useGetCategories()
 
   const { getQueryParam } = useQueryParams()
   const productIdParam = getQueryParam('productId')
@@ -54,14 +59,35 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
     },
   })
 
+  const [initialized, setInitialized] = useState(false)
+
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    if (onSubmit) {
+    if (!onSubmit) return
+
+    if (!product) {
       onSubmit(data)
+      return
     }
+
+    if (isCashier) {
+      const restrictedData = {
+        name: product.name,
+        price: product.price,
+        categoryId: product.categoryId,
+        image: product.image,
+        description: product.description,
+        isActive: data.isActive ?? product.isActive,
+      }
+
+      onSubmit(restrictedData)
+      return
+    }
+
+    onSubmit(data)
   }
 
   useEffect(() => {
-    if (product) {
+    if (product && categories?.length && !initialized) {
       form.reset({
         name: product.name,
         price: product.price,
@@ -70,8 +96,20 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
         description: product.description ?? '',
         isActive: product.isActive,
       })
+      setInitialized(true)
     }
-  }, [product, form])
+  }, [product, categories, form, initialized])
+
+  useEffect(() => {
+    // сбрасываем инициализацию при смене продукта
+    setInitialized(false)
+  }, [productId])
+
+  // useEffect(() => {
+  //   if (product && categories.length) {
+  //     form.setValue('categoryId', product.categoryId)
+  //   }
+  // }, [product, categories, form])
 
   const [files, setFiles] = useState<File[]>([])
 
@@ -91,7 +129,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
     return null
   }
 
-  if (isFetching) {
+  if (isFetching || isFetchingCategories || !initialized) {
     return (
       <div className="flex flex-col items-center justify-center flex-1">
         <Spinner scale={10} />
@@ -112,6 +150,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
                 <Input
                   {...field}
                   id="name"
+                  disabled={isCashier}
                   aria-invalid={fieldState.invalid}
                   autoComplete="off"
                 />
@@ -132,6 +171,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
                 <Input
                   {...field}
                   id="description"
+                  disabled={isCashier}
                   aria-invalid={fieldState.invalid}
                   autoComplete="off"
                 />
@@ -151,6 +191,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
                   {...field}
                   id="price"
                   type="number"
+                  disabled={isCashier}
                   aria-invalid={fieldState.invalid}
                   autoComplete="off"
                 />
@@ -169,6 +210,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
               value: String(c.id),
               label: c.name,
             }))}
+            disabled={isCashier}
             parseValue={(v) => Number(v)}
             formatValue={(v) =>
               v === undefined || v === null ? undefined : String(v as number)
@@ -187,9 +229,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
                       field.onChange(Boolean(checked))
                     }
                   />
-                  <FieldLabel htmlFor="isActive">
-                    {t('isActive')}
-                  </FieldLabel>
+                  <FieldLabel htmlFor="isActive">{t('isActive')}</FieldLabel>
                 </div>
               </Field>
             )}
@@ -206,7 +246,7 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
             }
           /> */}
 
-          {!form.watch('image') && (
+          {!form.watch('image') && !isCashier && (
             <Dropzone onDrop={handleDrop} multiple={false} src={files}>
               <DropzoneEmptyState />
               <DropzoneContent />
@@ -217,14 +257,16 @@ function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between">
                 <FieldLabel>{t('image')}</FieldLabel>
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
-                  onClick={handleRemoveImage}
-                >
-                  <Trash className="h-3 w-3" />
-                  Удалить
-                </button>
+                {!isCashier && (
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+                    onClick={handleRemoveImage}
+                  >
+                    <Trash className="h-3 w-3" />
+                    Удалить
+                  </button>
+                )}
               </div>
               <div className="overflow-hidden rounded-md border">
                 <img
