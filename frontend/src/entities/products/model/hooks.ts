@@ -20,7 +20,31 @@ export const useCreateProductMutation = (
   return useMutation({
     mutationFn: (data: CreateProduct) => ProductsService.createProduct(data),
     onSuccess: async (res) => {
-      await queryClient.invalidateQueries({ queryKey: productsQueryKeys.all() })
+      await queryClient.invalidateQueries({ queryKey: ['allProducts'] })
+      onSuccess?.(res.data)
+    },
+    onError: (err: AxiosError<RequestErrors>) => {
+      if (err.response?.data.errors) {
+        onError?.(err.response.data.errors)
+      }
+    },
+  })
+}
+
+export const useUpdateProductMutation = (
+  onSuccess?: (data: Product) => void,
+  onError?: (err: RequestErrors['errors']) => void
+) => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: { id: number; data: CreateProduct }) =>
+      ProductsService.updateProduct(payload.id, payload.data),
+    onSuccess: async (res, variables) => {
+      await queryClient.invalidateQueries({ queryKey: ['allProducts'] })
+      await queryClient.invalidateQueries({
+        queryKey: productsQueryKeys.byId(variables.id),
+      })
       onSuccess?.(res.data)
     },
     onError: (err: AxiosError<RequestErrors>) => {
@@ -43,6 +67,21 @@ export const useGetProducts = (params: QueryParams) => {
 
   return {
     products: data?.data,
+    isError,
+    isFetching,
+  }
+}
+
+export const useGetProduct = (id?: number) => {
+  const enabled = typeof id === 'number' && id > 0
+  const { data, isFetching, isError } = useQuery({
+    queryKey: productsQueryKeys.byId(id ?? 0),
+    queryFn: () => ProductsService.getProductById(id as number),
+    enabled,
+  })
+
+  return {
+    product: data?.data,
     isError,
     isFetching,
   }

@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Trash } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 
-import { getBase64 } from '@/shared/lib/utils'
+import { useGetProduct } from '@/entities/products'
+
+import { getBase64, useQueryParams } from '@/shared/lib/utils'
 
 import {
   Dropzone,
@@ -16,8 +18,8 @@ import {
   FieldGroup,
   FieldLabel,
   Input,
-  RHFSelectBox,
 } from '@/shared/ui'
+import { Spinner } from '@/shared/ui/spinner'
 
 import { formSchema } from './validation'
 
@@ -26,35 +28,43 @@ type ProductFormFeatureProps = {
   onSubmit?: (data: z.infer<typeof formSchema>) => void
 }
 
-function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
+function EditProductFeature({ id, onSubmit }: ProductFormFeatureProps) {
   const { t } = useTranslation(['products'])
+
+  const { getQueryParam } = useQueryParams()
+  const productIdParam = getQueryParam('productId')
+  const productId = productIdParam ? Number(productIdParam) : undefined
+
+  const { product, isFetching } = useGetProduct(productId)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      price: '',
-      categoryId: 0,
-      image: '',
-      description: '',
+      name: product?.name,
+      price: product?.price,
+      categoryId: product?.categoryId,
+      image: product?.image,
+      description: product?.description,
     },
   })
-
-  const categoryOptions = [
-    { value: '1', label: 'Pizza' },
-    { value: '2', label: 'Taco' },
-    { value: '3', label: 'Sandwich' },
-    { value: '4', label: 'Kebab' },
-    { value: '5', label: 'Popcorn' },
-    { value: '6', label: 'Burger' },
-    { value: '7', label: 'Burrito' },
-  ]
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     if (onSubmit) {
       onSubmit(data)
     }
   }
+
+  useEffect(() => {
+    if (product) {
+      form.reset({
+        name: product.name,
+        price: product.price,
+        categoryId: product.categoryId,
+        image: product.image ?? '',
+        description: product.description ?? '',
+      })
+    }
+  }, [product, form])
 
   const [files, setFiles] = useState<File[]>([])
 
@@ -68,6 +78,18 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
   const handleRemoveImage = () => {
     setFiles([])
     form.setValue('image', '')
+  }
+
+  if (!productId) {
+    return null
+  }
+
+  if (isFetching) {
+    return (
+      <div className="flex flex-col items-center justify-center flex-1">
+        <Spinner scale={10} />
+      </div>
+    )
   }
 
   return (
@@ -131,7 +153,7 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
               </Field>
             )}
           />
-          <RHFSelectBox
+          {/* <RHFSelectBox
             name="categoryId"
             control={form.control}
             label={t('category')}
@@ -141,7 +163,7 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
             formatValue={(v) =>
               v === undefined || v === null ? undefined : String(v as number)
             }
-          />
+          /> */}
 
           {!form.watch('image') && (
             <Dropzone onDrop={handleDrop} multiple={false} src={files}>
@@ -178,4 +200,4 @@ function ProductFormFeature({ id, onSubmit }: ProductFormFeatureProps) {
   )
 }
 
-export default ProductFormFeature
+export default EditProductFeature

@@ -22,4 +22,15 @@ export class ProductsService {
   static createProduct(data: CreateProduct): Promise<AxiosResponse<Product>> {
     return apiService.post<AxiosResponse<Product>>('/products/create', data)
   }
+
+  static getProductById(id: number): Promise<AxiosResponse<Product>> {
+    return apiService.get<AxiosResponse<Product>>(`/products/${id}`)
+  }
+
+  static updateProduct(
+    id: number,
+    data: CreateProduct
+  ): Promise<AxiosResponse<Product>> {
+    return apiService.put<AxiosResponse<Product>>(`/products/update/${id}`, data)
+  }
 }
