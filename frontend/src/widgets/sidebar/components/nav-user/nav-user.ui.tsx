@@ -1,4 +1,5 @@
 import { CircleUser, EllipsisVertical, LogOutIcon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Avatar,
@@ -17,12 +18,22 @@ import {
   useSidebar,
 } from '@/shared/ui'
 
+import { useUserStore } from '@/entities/auth'
+import { ROUTES } from '@/shared/lib/config'
+
 import type { Props } from './types'
 
 function NavUser(props: Props) {
   const { user } = props
 
   const { isMobile } = useSidebar()
+  const navigate = useNavigate()
+  const logout = useUserStore((s) => s.logout)
+
+  const handleLogout = () => {
+    logout()
+    navigate(ROUTES.MAIN)
+  }
 
   return (
     <SidebarMenu>
@@ -74,7 +85,7 @@ function NavUser(props: Props) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleLogout}>
               <LogOutIcon />
               Log out
             </DropdownMenuItem>
