@@ -21,6 +21,7 @@ function SiteHeader() {
     [ROUTES.PRODUCTS]: 'pages:products',
     [ROUTES.ORDERS]: 'pages:orders',
     [ROUTES.ANALITICS]: 'pages:analytics',
+    [ROUTES.CATEGORIES]: 'categories:categories',
   }
 
   const title: AllTranslationKeys = titleKeyByPath[pathname] || 'menu:menu'
