@@ -24,9 +24,19 @@ function CheckoutOrderFeature() {
   >('cash_on_delivery')
   const { items, total, clear } = useCart()
 
+  const resetForm = () => {
+    setFormData({ tableId: 1, guestCount: 1 })
+    setOrderType('dine_in')
+    setCustomerName('')
+    setCustomerPhone('')
+    setDeliveryAddress('')
+    setDeliveryPaymentMethod('cash_on_delivery')
+  }
+
   const { mutate, isPending } = useCreateOrderMutation(() => {
     notify('success', t('pages:orderPlaced'))
     clear()
+    resetForm()
   })
 
   const handleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
