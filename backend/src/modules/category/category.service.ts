@@ -16,7 +16,12 @@ export class CategoryService {
     ) {
       throw new Error('Category with this name already exists')
     }
-    const created = await repo.create(payload as CategoryCreationAttributes)
+    const maxSort = await repo.getMaxSortOrder()
+    const created = await repo.create({
+      ...(payload as CategoryCreationAttributes),
+      // If sortOrder explicitly provided, respect it; otherwise increment last
+      sortOrder: payload.sortOrder ?? maxSort + 1,
+    })
     return {
       id: created.id,
       name: created.name,

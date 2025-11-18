@@ -17,6 +17,7 @@ export const createCategoryValidator = [
     .withMessage('Поле name - обязательное'),
   body('description').optional({ nullable: true }).isString(),
   body('isActive').optional().isBoolean(),
+  body('sortOrder').optional().isInt({ gt: 0 }),
   validate,
 ]
 
@@ -25,6 +26,7 @@ export const updateCategoryValidator = [
   body('name').optional().isString().trim().notEmpty(),
   body('description').optional({ nullable: true }).isString(),
   body('isActive').optional().isBoolean(),
+  body('sortOrder').optional().isInt({ gt: 0 }),
   validate,
 ]
 

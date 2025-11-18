@@ -20,7 +20,10 @@ export class CategoryRepository {
 
     const options: FindOptions = {
       where,
-      order: [['id', 'ASC']],
+      order: [
+        ['sortOrder', 'ASC'],
+        ['id', 'ASC'],
+      ],
     }
 
     return await Category.findAll(options)
@@ -38,6 +41,13 @@ export class CategoryRepository {
     if (!category) return null
     await category.update(payload)
     return category
+  }
+
+  async getMaxSortOrder(): Promise<number> {
+    const last = await Category.findOne({
+      order: [['sortOrder', 'DESC']],
+    })
+    return last?.sortOrder ?? 0
   }
 
   async remove(id: number): Promise<boolean> {

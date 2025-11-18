@@ -37,6 +37,15 @@ router.put(
   updateCategoryValidator,
   controller.update,
 )
+
+// Update sort order explicitly (admin only)
+router.put(
+  '/update/:id/sort-order',
+  authMiddleware,
+  adminOnly,
+  updateCategoryValidator,
+  controller.updateSortOrder,
+)
 router.delete(
   '/delete/:id',
   authMiddleware,

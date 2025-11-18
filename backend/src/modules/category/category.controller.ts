@@ -62,6 +62,24 @@ class CategoryController {
       res.status(404).json({ success: false, message })
     }
   }
+
+  // Optional: dedicated endpoint to update sort order only
+  updateSortOrder = async (req: Request, res: Response) => {
+    try {
+      const id = Number(req.params.id)
+      const sortOrder = Number(req.body.sortOrder)
+      if (!Number.isFinite(sortOrder) || sortOrder <= 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: 'Invalid sortOrder' })
+      }
+      const category = await service.updateCategory(id, { sortOrder })
+      res.json({ success: true, data: category })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Not found'
+      res.status(404).json({ success: false, message })
+    }
+  }
 }
 
 export default new CategoryController()
