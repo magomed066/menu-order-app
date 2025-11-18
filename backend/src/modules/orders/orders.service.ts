@@ -15,6 +15,8 @@ import type { UpdateOrderDto } from '@dto/orders/update-order.dto'
 import Product from '@modules/products/products.model'
 import Table from '@modules/tables/tables.model'
 
+import { decryptSensitive, encryptSensitive } from '@utils/crypto/orders-crypto'
+
 import Order, { OrderDelivery, OrderDineIn, OrderItem } from './orders.model'
 import repo from './orders.repository'
 
@@ -54,10 +56,10 @@ export class OrdersService {
       ? {
           userId: o.delivery.userId ?? null,
           addressId: o.delivery.addressId,
-          customerName: o.delivery.customerName,
-          customerPhone: o.delivery.customerPhone,
+          customerName: decryptSensitive(o.delivery.customerName),
+          customerPhone: decryptSensitive(o.delivery.customerPhone),
           deliveryTime: o.delivery.deliveryTime ?? null,
-          deliveryAddress: o.delivery.deliveryAddress,
+          deliveryAddress: decryptSensitive(o.delivery.deliveryAddress),
           deliveryFee: String(o.delivery.deliveryFee),
           paymentMethod: o.delivery.paymentMethod,
         }
@@ -122,12 +124,12 @@ export class OrdersService {
         data: {
           userId: userId ?? null,
           addressId: payload.addressId,
-          customerName: payload.customerName,
-          customerPhone: payload.customerPhone,
+          customerName: encryptSensitive(payload.customerName),
+          customerPhone: encryptSensitive(payload.customerPhone),
           deliveryTime: payload.deliveryTime
             ? new Date(payload.deliveryTime)
             : null,
-          deliveryAddress: payload.deliveryAddress,
+          deliveryAddress: encryptSensitive(payload.deliveryAddress),
           deliveryFee: payload.deliveryFee ?? 0,
           paymentMethod: payload.paymentMethod,
         },
@@ -147,11 +149,11 @@ export class OrdersService {
         type: 'delivery',
         data: {
           customerName: payload.customerName,
-          customerPhone: payload.customerPhone,
+          customerPhone: encryptSensitive(payload.customerPhone),
           deliveryTime: payload.deliveryTime
             ? new Date(payload.deliveryTime)
             : null,
-          deliveryAddress: payload.deliveryAddress,
+          deliveryAddress: encryptSensitive(payload.deliveryAddress),
           deliveryFee: payload.deliveryFee ?? 0,
           paymentMethod: payload.paymentMethod,
         },

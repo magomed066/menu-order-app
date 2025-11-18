@@ -215,7 +215,9 @@ OrderDelivery.init(
       onDelete: 'RESTRICT',
     },
     customerName: { type: DataTypes.STRING(128), allowNull: false },
-    customerPhone: { type: DataTypes.STRING(32), allowNull: false },
+    // Encrypted phone number (base64) can be longer than raw value,
+    // so we use a larger column size.
+    customerPhone: { type: DataTypes.STRING(128), allowNull: false },
     deliveryTime: { type: DataTypes.DATE, allowNull: true },
     deliveryAddress: { type: DataTypes.STRING(512), allowNull: false },
     deliveryFee: { type: DataTypes.FLOAT, allowNull: false, defaultValue: 0 },
