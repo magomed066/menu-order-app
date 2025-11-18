@@ -9,7 +9,7 @@ export const formattedDate = (date?: Date | string | number): string => {
       return ''
     }
 
-    return format(value, 'dd.MM.yyyy HH:mm')
+    return format(value, 'HH:mm')
   } catch (error) {
     return ''
   }

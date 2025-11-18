@@ -1,68 +1,57 @@
-import { useAppTranslation } from '@/shared/lib/hooks'
-import { cn } from '@/shared/lib/utils'
+import { useRef } from 'react'
+import { useHover } from 'usehooks-ts'
 
-import {
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardTitle,
-  Separator,
-} from '@/shared/ui'
+import { cn, formattedDate, priceFormatter } from '@/shared/lib/utils'
 
-function OrderCard() {
-  const { t } = useAppTranslation()
+import { checkOrderTypeClasses } from '../../utils/checkCardType'
+import OrderStatusBadge from '../order-status-badge/order-status-badge.ui'
+import type { Props } from './types'
+
+function OrderCard(props: Props) {
+  const { data, onClick, isActive, badge, totalPrice } = props
+
+  const ref = useRef(null)
+
+  // const hovered = useHover(ref.current)
+
   return (
-    <Card className="flex-1 px-4">
-      <CardTitle className="flex items-center justify-between">
-        {t('pages:order')} №1
-        <Badge
-          className={cn('dark:text-white', 'bg-blue-500 dark:bg-blue-800')}
-        >
-          {t('pages:status_pending')}
-        </Badge>
-      </CardTitle>
+    <div
+      ref={ref}
+      className={cn(
+        'rounded-lg py-3 px-4 cursor-pointer transition-all relative overflow-hidden bg-white border',
+        data.status === 'pending' && 'border border-[#F79009]',
+        data.status === 'pending' &&
+          isActive &&
+          'hover:bg-[#FFF1DE] bg-[#FFF1DE]',
+        data.status === 'cooking' && isActive && 'shadow',
+        data.status === 'ready' && isActive && 'opacity-100 shadow',
+        data.status === 'ready' && !isActive && 'opacity-50 shadow',
+        data.status === 'completed' && !isActive && 'opacity-50 bg-white'
+      )}
+      onClick={() => onClick?.(data)}
+    >
+      <div
+        className={cn(
+          'absolute left-0 top-0 bottom-0 w-1 bg-white',
+          data.status === 'pending' ? 'bg-[#F79009]' : 'bg-[#0D4FDC]',
+          !isActive && 'opacity-0'
+        )}
+      />
 
-      <Separator />
-
-      <CardContent>
-        <div className="flex flex-col gap-4">
-          <p className="text-md">{t('pages:tableShort')}5</p>
+      {badge ? (
+        <div className="absolute bottom-2 right-2 ">
+          <OrderStatusBadge status={data.status} />
         </div>
-        <Separator className="my-4" />
-        <div>
-          <h2 className="text-lg mb-4">{t('pages:orderedItems')}</h2>
+      ) : null}
 
-          <div className="flex flex-col gap-2">
-            <div>
-              <p>
-                Пицца мексикано - <strong>540 ₽</strong>
-              </p>
-            </div>
-            <div>
-              <p>
-                Лимонад - <strong>340 ₽</strong>
-              </p>
-            </div>
-            <div>
-              <p>
-                Бургер - <strong>240 ₽</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </CardContent>
+      <h4 className="font-bold">{priceFormatter.format(Number(totalPrice))}</h4>
 
-      {/* <Separator className="mt-auto" /> */}
-
-      <CardFooter className="mt-auto border-t flex items-center justify-between">
-        <p className="text-lg font-bold">{t('pages:total')} 1 120 ₽</p>
-        <Button className="bg-green-500 dark:bg-green-800 dark:text-white">
-          {t('pages:toReady')}
-        </Button>
-      </CardFooter>
-    </Card>
+      <div className="flex items-center mt-4 gap-1">
+        <p className="text-sm">№{data.id}</p>
+        <div className="text-dark">•</div>
+        <p className="text-sm">{formattedDate(data.createdAt)}</p>
+      </div>
+    </div>
   )
 }
 
