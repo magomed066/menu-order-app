@@ -18,7 +18,14 @@ class CategoryController {
   }
 
   findAll = async (_: Request, res: Response) => {
-    const categories = await service.getCategories()
+    // Admin view: return all categories, including inactive
+    const categories = await service.getCategories({ onlyActive: false })
+    res.json({ success: true, data: categories })
+  }
+
+  // Public endpoint: only active categories
+  findPublic = async (_: Request, res: Response) => {
+    const categories = await service.getCategories({ onlyActive: true })
     res.json({ success: true, data: categories })
   }
 

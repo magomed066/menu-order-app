@@ -27,8 +27,8 @@ export class CategoryService {
     }
   }
 
-  async getCategories(): Promise<CategoryDto[]> {
-    const items = await repo.findAll()
+  async getCategories(params?: { onlyActive?: boolean }): Promise<CategoryDto[]> {
+    const items = await repo.findAll({ onlyActive: params?.onlyActive })
     return items.map((c) => ({
       id: c.id,
       name: c.name,

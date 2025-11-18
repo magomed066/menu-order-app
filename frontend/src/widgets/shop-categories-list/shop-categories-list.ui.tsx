@@ -1,4 +1,4 @@
-import { useGetCategories } from '@/entities/categories'
+import { useGetPublicCategories } from '@/entities/categories'
 
 import ProductCategorySelectFeature from '@/features/product-category-select'
 
@@ -9,7 +9,7 @@ import { Button } from '@/shared/ui'
 
 function ShopCategoriesListWidget() {
   const { t } = useAppTranslation()
-  const { isFetching, categories } = useGetCategories()
+  const { isFetching, categories } = useGetPublicCategories()
   const { getQueryParam, removeQueryParams } = useQueryParams()
 
   const categoryId = getQueryParam('categoryId')

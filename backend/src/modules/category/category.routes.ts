@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { adminOnly, authMiddleware } from '@middleware/auth'
+import { adminOnly, authMiddleware, requireAnyRole } from '@middleware/auth'
 import {
   createCategoryValidator,
   deleteCategoryValidator,
@@ -12,7 +12,16 @@ import controller from './category.controller'
 
 const router = Router()
 
-router.get('/all', controller.findAll)
+// Admin: all categories (active and inactive)
+router.get(
+  '/all',
+  authMiddleware,
+  requireAnyRole(['admin', 'cashier']),
+  controller.findAll,
+)
+
+// Public: only active categories
+router.get('/public', controller.findPublic)
 router.get('/:id', getCategoryByIdValidator, controller.findOne)
 router.post(
   '/',

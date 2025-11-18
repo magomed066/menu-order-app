@@ -4,8 +4,14 @@ import { apiService } from '../../base'
 import type { Category, CreateCategory, UpdateCategory } from './types'
 
 export class CategoriesService {
+  // Admin/categories page: all categories (including inactive)
   static getCategories(): Promise<AxiosResponse<Category[]>> {
     return apiService.get<AxiosResponse<Category[]>>('/categories/all')
+  }
+
+  // Public (shop): only active categories
+  static getPublicCategories(): Promise<AxiosResponse<Category[]>> {
+    return apiService.get<AxiosResponse<Category[]>>('/categories/public')
   }
 
   static createCategory(

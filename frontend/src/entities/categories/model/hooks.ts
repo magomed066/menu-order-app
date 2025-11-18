@@ -17,6 +17,18 @@ export function useGetCategories() {
   return { categories: data?.data ?? [], isFetching, isError }
 }
 
+// Public (client) categories – only active ones
+export function useGetPublicCategories() {
+  const { data, isFetching, isError } = useQuery({
+    queryKey: ['publicCategories'],
+    queryFn: () => CategoriesService.getPublicCategories(),
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    staleTime: 0,
+  })
+  return { categories: data?.data ?? [], isFetching, isError }
+}
+
 export function useCreateCategoryMutation(
   onSuccess?: () => void,
   onError?: (err: RequestErrors['errors']) => void,
