@@ -19,7 +19,7 @@ export class OrdersService {
   static createDeliveryOrder(
     data: CreateDeliveryOrderPayload
   ): Promise<AxiosResponse<{ success: boolean }>> {
-    return apiService.post('/orders/create/delivery', data)
+    return apiService.post('/orders/create/delivery-public', data)
   }
 
   static getOrders(params: {

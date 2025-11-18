@@ -1,8 +1,6 @@
 import { useAppTranslation } from '@/shared/lib/hooks'
-import { cn, getOrderStatusBadgeCn } from '@/shared/lib/utils'
 
-import { Badge, Item, ItemContent, ItemTitle } from '@/shared/ui'
-
+import OrderCard from '../order-card'
 import type { Props } from './types'
 
 function OrdersList(props: Props) {
@@ -18,30 +16,14 @@ function OrdersList(props: Props) {
       <h3>{t(data.label as any)}</h3>
       <div className="flex flex-col gap-4">
         {data.list.map((el) => (
-          <Item
+          <OrderCard
             key={el.id}
-            variant="outline"
-            size="sm"
-            asChild
-            className={cn(
-              'hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer',
-              activeOrderId === el.id && 'bg-slate-100 dark:bg-slate-900 '
-            )}
-            onClick={() => handleSelect(el.id)}
-          >
-            <div>
-              <ItemContent>
-                <ItemTitle>
-                  {t('pages:order')} №{el.id}
-                </ItemTitle>
-              </ItemContent>
-              <ItemContent>
-                <Badge className={getOrderStatusBadgeCn(el)}>
-                  {t(data.label as any)}
-                </Badge>
-              </ItemContent>
-            </div>
-          </Item>
+            data={el}
+            onClick={(el) => handleSelect(el.id)}
+            isActive={activeOrderId === el.id}
+            totalPrice={el.totalAmount}
+            badge
+          />
         ))}
       </div>
     </div>

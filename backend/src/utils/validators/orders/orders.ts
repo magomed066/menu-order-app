@@ -44,6 +44,20 @@ export const createDeliveryOrderValidator = [
   validate,
 ]
 
+export const createDeliveryPublicOrderValidator = [
+  body('customerName').isString().trim().notEmpty(),
+  body('customerPhone').isString().trim().notEmpty(),
+  body('deliveryTime').optional().isString(),
+  body('deliveryAddress').isString().trim().notEmpty(),
+  body('deliveryFee').optional().isFloat({ min: 0 }),
+  body('paymentMethod').isIn(['online', 'cash_on_delivery']),
+  body('items').isArray({ min: 1 }),
+  body('items.*.productId').isInt({ gt: 0 }),
+  body('items.*.quantity').isInt({ gt: 0 }),
+  body('items.*.specialInstructions').optional().isString(),
+  validate,
+]
+
 export const updateOrderValidator = [
   param('id').isInt({ gt: 0 }),
   body('status')

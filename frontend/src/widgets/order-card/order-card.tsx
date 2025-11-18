@@ -13,6 +13,7 @@ import { useAppTranslation } from '@/shared/lib/hooks'
 import type { AllTranslationKeys } from '@/shared/lib/hooks'
 import { showToast } from '@/shared/lib/toast'
 import {
+  cn,
   formattedDate,
   getOrderStatusBadgeCn,
   priceFormatter,
@@ -78,13 +79,23 @@ function OrderCardWidget() {
 
   return (
     <Card className="flex-1 px-4">
-      <CardTitle className="flex items-center justify-between">
-        {t('pages:order')} №{order.id}
-        <Badge className={getOrderStatusBadgeCn(order)}>
-          {t(ORDER_STATUS_LABEL[order.status] as AllTranslationKeys)}
-        </Badge>
-      </CardTitle>
+      <div className="flex flex-col gap-2">
+        <CardTitle className="flex items-center justify-between text-[20px]">
+          №{order.id}
+          <Badge className={getOrderStatusBadgeCn(order.status)}>
+            {t(ORDER_STATUS_LABEL[order.status] as AllTranslationKeys)}
+          </Badge>
+        </CardTitle>
 
+        <p className="text-[16px]">
+          <span className="text-slate-500 dark:text-white">
+            {t('pages:orderTime')}
+          </span>{' '}
+          <span className=" text-slate-500">
+            {formattedDate(order.createdAt)}
+          </span>
+        </p>
+      </div>
       <Separator />
 
       <CardContent>
@@ -95,28 +106,51 @@ function OrderCardWidget() {
               {order.dineIn.tableId}
             </p>
           ) : order.delivery ? (
-            <div className="text-sm">
-              <div>
-                {t('pages:delivery')} {order.delivery.deliveryAddress}
+            <div className="flex items-center gap-8">
+              <div className="text-sm flex flex-col gap-4">
+                <p className="text-slate-500 text-[16px]">
+                  {t('pages:delivery')}:
+                </p>
+                <p className="text-slate-500 text-[16px]">
+                  {t('pages:customerName')}:
+                </p>
+                <p className="text-slate-500 text-[16px]">
+                  {t('pages:customerPhone')}:
+                </p>
+                <p className="text-slate-500 text-[16px]">
+                  {t('pages:payment')}:
+                </p>
+              </div>
+
+              <div className="text-sm flex flex-col gap-4">
+                <p className="text-slate-900 text-[16px]">
+                  {order.delivery.deliveryAddress}
+                </p>
+                <p className="text-slate-900 text-[16px]">
+                  {order.delivery.customerName}
+                </p>
+                <p className="text-slate-900 text-[16px]">
+                  {order.delivery.customerPhone}
+                </p>
+                <p className="text-slate-900 text-[16px]">
+                  {order.delivery.paymentMethod === 'online'
+                    ? t('pages:payment_online')
+                    : t('pages:payment_cash')}
+                </p>
               </div>
             </div>
           ) : null}
-
-          <Separator className="my-1" />
-
-          <p className="text-md">
-            <span className="text-slate-700 dark:text-white">
-              {t('pages:orderTime')}
-            </span>{' '}
-            <span className="font-bold">{formattedDate(order.createdAt)}</span>
-          </p>
         </div>
-        <Separator className="my-4" />
-        <div>
-          <h2 className="mb-4 text-lg">{t('pages:orderedItems')}</h2>
-          <div className="flex flex-col gap-2 border-y border-gray-200 p-3">
-            {order.items.map((it) => (
-              <div key={it.id} className="flex items-center justify-between">
+        <div className="mt-5">
+          <div className="flex flex-col gap-2 p-3">
+            {order.items.map((it, i) => (
+              <div
+                key={it.id}
+                className={cn(
+                  'flex items-center justify-between border-t border-gray-200 py-4',
+                  i + 1 === order.items.length && 'border-b border-gray-200 '
+                )}
+              >
                 <p className="font-bold">
                   {it.productName} x {it.quantity}
                 </p>

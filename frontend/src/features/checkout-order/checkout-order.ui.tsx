@@ -14,12 +14,14 @@ function CheckoutOrderFeature() {
   const [formData, setFormData] = useState({
     tableId: 1,
     guestCount: 1,
-    addressId: 1,
   })
   const [orderType, setOrderType] = useState<'dine_in' | 'delivery'>('dine_in')
   const [customerName, setCustomerName] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
   const [deliveryAddress, setDeliveryAddress] = useState('')
+  const [deliveryPaymentMethod, setDeliveryPaymentMethod] = useState<
+    'online' | 'cash_on_delivery'
+  >('cash_on_delivery')
   const { items, total, clear } = useCart()
 
   const { mutate, isPending } = useCreateOrderMutation(() => {
@@ -56,13 +58,12 @@ function CheckoutOrderFeature() {
 
     mutate({
       orderType: 'delivery',
-      addressId: formData.addressId,
       customerName,
       customerPhone,
       deliveryTime: undefined,
       deliveryAddress,
       deliveryFee: undefined,
-      paymentMethod: 'cash_on_delivery',
+      paymentMethod: deliveryPaymentMethod,
       items: items.map((i) => ({ productId: i.id, quantity: i.quantity })),
     })
   }
@@ -136,6 +137,26 @@ function CheckoutOrderFeature() {
                 onChange={(e) => setDeliveryAddress(e.target.value)}
               />
             </div>
+            <div>
+              <div className="mb-2 text-sm text-muted-foreground">
+                {t('pages:payment')}
+              </div>
+              <SelectBox
+                options={[
+                  { label: t('pages:payment_online'), value: 'online' },
+                  {
+                    label: t('pages:payment_cash'),
+                    value: 'cash_on_delivery',
+                  },
+                ]}
+                value={deliveryPaymentMethod}
+                onValueChange={(v) =>
+                  setDeliveryPaymentMethod(
+                    v as 'online' | 'cash_on_delivery',
+                  )
+                }
+              />
+            </div>
           </>
         )}
         {/* <div>
@@ -169,10 +190,7 @@ function CheckoutOrderFeature() {
             (orderType === 'dine_in' &&
               (!formData.tableId || !formData.guestCount)) ||
             (orderType === 'delivery' &&
-              (!customerName ||
-                !customerPhone ||
-                !deliveryAddress ||
-                !formData.addressId))
+              (!customerName || !customerPhone || !deliveryAddress))
           }
           onClick={placeOrder}
         >

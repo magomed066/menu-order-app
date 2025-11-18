@@ -21,3 +21,13 @@ export type CreateOrderDeliveryDto = {
   paymentMethod: 'online' | 'cash_on_delivery'
   items: CreateOrderItemInput[]
 }
+
+export type CreateOrderDeliveryPublicDto = {
+  customerName: string
+  customerPhone: string
+  deliveryTime?: string
+  deliveryAddress: string
+  deliveryFee?: number
+  paymentMethod: 'online' | 'cash_on_delivery'
+  items: CreateOrderItemInput[]
+}
